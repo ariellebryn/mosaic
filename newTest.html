@@ -1,0 +1,92 @@
+<html>
+<head>
+	 <meta charset="UTF-8"> 
+<title>Test</title>
+<style>
+	html, body {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		margin: 0;
+		overflow-x: hidden;
+		background-color: gray;
+	}
+
+	.test {
+		background-color: #E4CAAC;
+	}
+
+	.square-grid {
+		position: relative;
+		width: 100%;
+		height: 50%;
+	}
+
+	.square-block {
+		width: 8.9%;
+		padding-bottom: 8.9%;
+		margin-right: 1%;
+		margin-bottom: 1%;
+		position: absolute;
+	}
+
+	.width-2 {
+		width: 18.8%;
+	}
+
+	.height-2 {
+		padding-bottom: 18.8%;
+	}
+
+	.square-grid-10:nth-child(10n) {
+		margin-right: 0;
+	}
+
+	.square-grid-10:nth-child(10n+1) {
+		margin-left: 1%;
+	}
+
+	.square-grid-10:nth-child(-n+11) {
+		margin-top: 1%;
+	}
+
+
+</style>
+</head>
+<body>
+
+	<div id="square-grid" class="square-grid-10">
+		<div class="square-block row-1 col-7 width-2 height-2 test"></div>
+		<div class="square-block test"></div>
+		<div class="square-block width-2 test"></div>
+		<div class="square-block height-2 test"></div>
+		<div class="square-block test"></div>
+		<div class="square-block test"></div>
+		<div class="square-block test"></div>
+		<div class="square-block test"></div>
+		<div class="square-block height-2 row-0 col-1 test"></div>
+		<div class="square-block test"></div>
+		<div class="square-block width-2 test"></div>
+		<div class="square-block height-2 test"></div>
+		<div class="square-block test"></div>
+		<div class="square-block test"></div>
+		<div class="square-block test"></div>
+		<div class="square-block test"></div>
+		<div class="square-block height-2 test"></div>
+		<div class="square-block test"></div>
+		<div class="square-block width-2 test"></div>
+		<div class="square-block height-2 test"></div>
+		<div class="square-block test"></div>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="mosaic.js"></script>
+	<script>
+		var grid = new Grid($("#square-grid"), 10);
+		grid.readTiles();
+		grid.layoutTiles();
+	</script>
+
+</body>
+</html>

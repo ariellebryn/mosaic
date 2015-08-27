@@ -1,0 +1,94 @@
+<html>
+<head>
+	 <meta charset="UTF-8"> 
+<title>Test</title>
+<style>
+	html, body {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		margin: 0;
+		overflow-x: hidden;
+		background-color: gray;
+	}
+
+	* {
+	  -webkit-box-sizing: border-box;
+	     -moz-box-sizing: border-box;
+	          box-sizing: border-box;
+	}
+
+	body {
+	  font-family: sans-serif;
+	}
+
+
+	/* ---- grid ---- */
+
+	.grid {
+	  max-width: 1200px;
+	}
+
+	/* clear fix */
+	.grid:after {
+	  content: '';
+	  display: block;
+	  clear: both;
+	}
+
+	/* ---- .grid-item ---- */
+
+	.grid-item {
+	  float: left;
+	  width: 100px;
+	  height: 100px;
+	  background: #E4CAAC;
+	  border: 2px solid #eee;
+	  border-color: hsla(0, 0%, 0%, 0.7);
+	}
+
+	.grid-item--width2 { width: 200px; }
+	.grid-item--height2 { height: 200px; }
+
+
+
+</style>
+</head>
+<body>
+
+	<div class="grid">
+		<div class="grid-item grid-item--width2"></div>
+		  <div class="grid-item grid-item--height2"></div>
+		  <div class="grid-item"></div>
+		  <div class="grid-item"></div>
+		  <div class="grid-item grid-item--width2 grid-item--height2"></div>
+		  <div class="grid-item grid-item--width2"></div>
+		  <div class="grid-item grid-item--width2"></div>
+		  <div class="grid-item grid-item--height2"></div>
+		  <div class="grid-item"></div>
+		  <div class="grid-item grid-item--width2"></div>
+		  <div class="grid-item grid-item--height2"></div>
+		  <div class="grid-item"></div>
+		  <div class="grid-item"></div>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="masonry.js">
+	</script>
+
+	<script>
+		$(document).ready( function() {
+  
+		  $('.grid').isotope({
+		    itemSelector: '.grid-item',
+		    masonry: {
+		      columnWidth: 100
+		    }
+		  });
+
+		});
+	</script>
+
+</body>
+</html>
