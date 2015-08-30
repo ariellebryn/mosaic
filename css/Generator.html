@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>Generating css</title>
+    </head>
+    <body>
+
+        <div id="all"></div>
+
+        <script>
+            var maxCols = 10;
+            var prefix = ".mosaic-grid-";
+            var tile = ".mosaic-tile";
+            var widthPrefix = ".width-";
+            var heightPrefix = ".height-";
+            var newline = "<br />";
+            var str = "";
+
+            for (var i = 1; i <= maxCols; i++) {
+                str += "/* " + i + " Columns */" + newline;
+                var width = 100/i;
+                str += prefix + i + " " + tile + " { " + newline;
+                str += "width: " + width+ "%" + ";" + newline;
+                str += "padding-bottom: " + width+ "%" + ";" + newline;
+                str += "}" + newline + newline;
+                
+                for (var j = 1; j <= i; j++) {
+                    // all widths
+                    var jWidth = width * j;
+                    str += prefix + i + " " + widthPrefix + j + " {" + newline;
+                    str += "width: " + jWidth+ "%" + ";" + newline + "}" + newline + newline;
+                }
+                
+                for (var k = 1; k <= maxCols; k++) {
+                    // all heights
+                    var height = width * k;
+                    str += prefix + i + " " + heightPrefix + k + " {" + newline;
+                    str += "padding-bottom: " + height+ "%" + ";" + newline + "}" + newline + newline;
+                }
+            }
+            
+            document.getElementById('all').innerHTML = str;
+
+        </script>
+    </body>
+</html>

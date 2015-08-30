@@ -1,92 +1,108 @@
 <html>
 <head>
-	 <meta charset="UTF-8"> 
-<title>Test</title>
-<style>
-	html, body {
-		position: relative;
-		width: 100%;
-		height: 100%;
-		padding: 0;
-		margin: 0;
-		overflow-x: hidden;
-		background-color: gray;
-	}
+    <meta charset="UTF-8"> 
+    <title>Test</title>
+    <style>
+        html, body {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+            background-color: gray;
+        }
 
-	.test {
-		background-color: #E4CAAC;
-	}
+        .test {
+            background-color: #E4CAAC;
+        }
 
-	.square-grid {
-		position: relative;
-		width: 100%;
-		height: 50%;
-	}
+        .square-grid {
+            width: 100%;
+            height: 50%;
+        }
 
-	.square-block {
-		width: 8.9%;
-		padding-bottom: 8.9%;
-		margin-right: 1%;
-		margin-bottom: 1%;
-		position: absolute;
-	}
+        .special {
+            background-color: #5F3049;
+        }
+        
+        .js-tile-style {
+            position: absolute;
+        }
 
-	.width-2 {
-		width: 18.8%;
-	}
+        .square-block {
+            width: 8.9%;
+            padding-bottom: 8.9%;
+            float: left;
+            margin: 0;
+            transition: margin-top .6s, margin-left .6s;
+        }
 
-	.height-2 {
-		padding-bottom: 18.8%;
-	}
+        .width-2 {
+            width: 18.8%;
+        }
+        
+        .width-4 {
+            width: 38.6%;
+        }
 
-	.square-grid-10:nth-child(10n) {
-		margin-right: 0;
-	}
+        .height-2 {
+            padding-bottom: 18.8%;
+        }
 
-	.square-grid-10:nth-child(10n+1) {
-		margin-left: 1%;
-	}
+        .gutter .square-block {
+            margin-right: 1%;
+            margin-bottom: 1%;
+        }
 
-	.square-grid-10:nth-child(-n+11) {
-		margin-top: 1%;
-	}
+        .gutter:nth-child(10n) {
+            margin-right: 0;
+        }
 
+        .gutter:nth-child(10n+1) {
+            margin-left: 1%;
+        }
 
-</style>
+        .gutter:nth-child(-n+11) {
+            margin-top: 1%;
+        }
+    </style>
 </head>
 <body>
 
-	<div id="square-grid" class="square-grid-10">
-		<div class="square-block row-1 col-7 width-2 height-2 test"></div>
-		<div class="square-block test"></div>
-		<div class="square-block width-2 test"></div>
-		<div class="square-block height-2 test"></div>
-		<div class="square-block test"></div>
-		<div class="square-block test"></div>
-		<div class="square-block test"></div>
-		<div class="square-block test"></div>
-		<div class="square-block height-2 row-0 col-1 test"></div>
-		<div class="square-block test"></div>
-		<div class="square-block width-2 test"></div>
-		<div class="square-block height-2 test"></div>
-		<div class="square-block test"></div>
-		<div class="square-block test"></div>
-		<div class="square-block test"></div>
-		<div class="square-block test"></div>
-		<div class="square-block height-2 test"></div>
-		<div class="square-block test"></div>
-		<div class="square-block width-2 test"></div>
-		<div class="square-block height-2 test"></div>
-		<div class="square-block test"></div>
-	</div>
+    <div id="square-grid" class="square-grid-10 gutter">
+        <div data-mosaic-row="1" data-mosaic-col="7" class="square-block width-2 height-2 row-1 col-7 test special"></div>
+        <div class="square-block test"></div>
+        <div class="square-block width-2 test"></div>
+        <div class="square-block height-2 test"></div>
+        <div data-mosaic-row="1" data-mosaic-col="3" class="square-block row-1 col-3 test special"></div>
+        <div class="square-block test"></div>
+        <div class="square-block test"></div>
+        <div class="square-block test"></div>
+        <div data-mosaic-row="0" data-mosaic-col="1" class="square-block row-0 col-1 height-2 test special"></div>
+        <div class="square-block test"></div>
+        <div class="square-block width-4 test"></div>
+        <div class="square-block height-2 test"></div>
+        <div class="square-block test"></div>
+        <div class="square-block test"></div>
+        <div class="square-block test"></div>
+        <div class="square-block test"></div>
+        <div class="square-block height-2 test"></div>
+        <div class="square-block test"></div>
+        <div class="square-block width-2 test"></div>
+        <div class="square-block height-2 test"></div>
+        <div class="square-block test"></div>
+    </div>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-	<script src="mosaic.js"></script>
-	<script>
-		var grid = new Grid($("#square-grid"), 10);
-		grid.readTiles();
-		grid.layoutTiles();
-	</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="mosaic.js"></script>
+    <script>
+        $(document).ready(function() {
+            var grid = new Grid($("#square-grid"), 10, 1);
+            grid.readTiles();
+            grid.layoutTiles();
+        });
+    </script>
 
 </body>
 </html>
