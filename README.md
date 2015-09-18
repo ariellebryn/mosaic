@@ -7,3 +7,12 @@ Like Packery, you can specify tiles that you want to essentially keep the same p
 
 NOTES:
 1. If you want to use the grid framework with something like masonry, you'll need to turn off the margin on rows thing. Otherwise, it totally works (besides placing stuff, obviously);
+
+
+TESTS:
+- Each should use some normalize css
+
+- All mosaic grids
+    - Columns 1-10, gutter 1-columns
+    - Test with mobile breakpoints
+    - 

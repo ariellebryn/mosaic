@@ -1,0 +1,122 @@
+/* Variables */
+$columns: 10;
+$gutter: 1;
+
+/* Calculations */
+$side: (100 - (($columns+1)*$gutter))/$columns * 1%;
+$gutterSize: $gutter * 1%;
+$columnsInc : $columns+1;
+
+/* Mixins */
+@mixin calcWidth($num) {
+    @if ($num <= $columns) {
+        width: ($side * $num) + ($gutter * ($num - 1)); 
+    } @else {
+        width: ($side * $columns) + ($gutter * ($columns - 1)); 
+    }
+}
+
+@mixin calcHeight($num) {
+    padding-bottom: ($side * $num) + ($gutter * ($num - 1)); 
+}
+
+/* Base */
+.js-tile-style {
+    position: absolute;
+}
+
+/* Tiles */
+.mosaic-tile { 
+    float: left;
+    margin: 0;
+    transition: margin-top .6s, margin-left .6s;
+
+    width: $side;
+    padding-bottom: $side;
+    margin-right: $gutterSize;
+    margin-bottom: $gutterSize;
+}
+
+.mosaic-tile:nth-child(#{$columns}n) {
+    margin-right: 0;
+}
+.mosaic-tile:nth-child(#{$columns}n+1) {
+    margin-left: $gutterSize;
+}
+.mosaic-tile:nth-child(-n+#{$columnsInc}) {
+    margin-top: $gutterSize;
+}
+
+/* Width */
+.mosaic-tile.width-2 {
+    @include calcWidth(2);
+}
+
+.mosaic-tile.width-3 {
+    @include calcWidth(3);
+}
+
+.mosaic-tile.width-4 {
+    @include calcWidth(4);
+}
+
+.mosaic-tile.width-5 {
+    @include calcWidth(5);
+}
+
+.mosaic-tile.width-6 {
+    @include calcWidth(6);
+}
+
+.mosaic-tile.width-7 {
+    @include calcWidth(7);
+}
+
+.mosaic-tile.width-8 {
+    @include calcWidth(8);
+}
+
+.mosaic-tile.width-9 {
+    @include calcWidth(9);
+}
+
+.mosaic-tile.width-10 {
+    @include calcWidth(10);
+}
+
+/* Height */
+.mosaic-tile.height-2 {
+    @include calcHeight(2);
+}
+
+.mosaic-tile.height-3 {
+    @include calcHeight(3);
+}
+
+.mosaic-tile.height-4 {
+    @include calcHeight(4);
+}
+
+.mosaic-tile.height-5 {
+    @include calcHeight(5);
+}
+
+.mosaic-tile.height-6 {
+    @include calcHeight(6);
+}
+
+.mosaic-tile.height-7 {
+    @include calcHeight(7);
+}
+
+.mosaic-tile.height-8 {
+    @include calcHeight(8);
+}
+
+.mosaic-tile.height-9 {
+    @include calcHeight(9);
+}
+
+.mosaic-tile.height-10 {
+    @include calcHeight(10);
+}

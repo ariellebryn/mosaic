@@ -3,8 +3,10 @@
         <meta charset="UTF-8"> 
         <title>Test</title>
 
-            <link href='css/tilestyle.css' rel='stylesheet'>
-        <link href='css/mosaic.gutter.css' rel='stylesheet'>
+<!--            <link href='css/tilestyle.css' rel='stylesheet'>-->
+        <link href='css/mosaic.css' rel='stylesheet'>
+        <link href='css/mosaic.mobile1.css' rel='stylesheet'>
+        <link href='css/mosaic.mobile2.css' rel='stylesheet'>
         <style>
             html, body {
                 position: relative;
@@ -20,30 +22,27 @@
 
             .mosaic-grid {
                 position: relative;
-                width: 100%;
+                width: 500px;
                 height: 100%;
                 padding: 0;
                 margin: 0 auto;
+                border: 1px solid red;
             }
 
             /* Base */
-            .js-tile-style {
-                position: absolute;
-            }
-
             .mosaic-tile {
                 float: left;
                 margin: 0;
+                opacity: 0;
                 box-sizing: border-box;
                 transition: margin-top .6s, margin-left .6s;
             }
 
             .test {
-/*                background-color: #E4CAAC;*/
+                background-color: #E4CAAC;
                 border: 1px solid #A9C7D1;
             }
 
-/*
             .a {
                 background-color: #5F3049;
             }
@@ -63,14 +62,25 @@
             .e {
                 background-color: #46857C;
             }
-*/
+            
+            .js-tile-style {
+                opacity: .5;
+                position: absolute;
+                background-color: transparent;
+            }
+            
+            @media only screen and (min-width: 1200px) {
+                .mosaic-grid {
+                    width: 1000px;
+                }
+            }
         </style>
     </head>
     <body>
 
-        <div id="mosaic-grid" class="mosaic-grid mosaic-grid-10 gutter-2">
+        <div id="mosaic-grid" class="mosaic-grid">
             <div data-mosaic-row="1" data-mosaic-col="1" class="mosaic-tile size width-2 height-2 test"></div>
-            <div class="mosaic-tile test a"></div>
+            <div class="mosaic-tile test sizer a"></div>
             <div class="mosaic-tile width-2 test b"></div>
             <div class="mosaic-tile height-2 test c"></div>
             <div data-mosaic-row="0" data-mosaic-col="0" class="mosaic-tile width-4 test d"></div>
@@ -89,9 +99,14 @@
         <script src="mosaic.js"></script>
         <script>
                     $(document).ready(function() {
+                        var test = {size: 1200, columns: 10};
+                        var test2 = {size: 700, columns: 5};
                         var grid = $("#mosaic-grid").mosaic({
-                            columns: 10,
-                            gutter: 2
+                            tileModel: '.sizer',
+                            columns: 2,
+                            gutter: 1,
+                            heightFromWidth: true,
+                            breakpoints: [test, test2]
                         });
                     });
         </script>

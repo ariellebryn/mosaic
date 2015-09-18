@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <meta charset="UTF-8"> 
+        <title>Test</title>
+
+        <link href="../css/simplegrid.css" rel='stylesheet'>
+        <style>
+            html, body {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                padding: 0;
+                margin: 0;
+                background-color: white;
+                overflow: auto;
+                overflow-x: hidden;
+                text-align: center;
+            }
+            
+            .grid {
+                width: 500px;
+                border: 1px solid red;
+            }
+
+            .test {
+                height: 5%;
+                background-color: #E4CAAC;
+                border: 1px solid #A9C7D1;
+            }
+
+            .js-tile-style {
+                background-color: transparent;
+                position: absolute;
+            }
+            
+            .special {
+                background-color: red;
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <div id="simple-grid" class="grid">
+            <div data-mosaic-row="1" data-mosaic-col="1" class="test mosaic-tile col-1-3 special"></div>
+            <div class="test sizer mosaic-tile col-1-3"></div>
+            <div class="test mosaic-tile col-1-3"></div>
+            <div class="test mosaic-tile col-1-3"></div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="../mosaic.js"></script>
+        <script>
+            $(document).ready(function() {
+                var grid = $("#simple-grid").mosaic({
+                    tileModel: '.sizer',
+                    columns: 3
+                });
+            });
+        </script>
+
+    </body>
+</html>

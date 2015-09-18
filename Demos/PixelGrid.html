@@ -1,0 +1,225 @@
+<html>
+    <head>
+        <meta charset="UTF-8"> 
+        <title>Test</title>
+
+        <style>
+            html, body {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                padding: 0;
+                margin: 0;
+                background-color: white;
+                overflow: auto;
+                overflow-x: hidden;
+                text-align: center;
+            }
+
+            .pixel-grid {
+                position: relative;
+                width: 500px;
+                height: 100%;
+                padding: 0;
+                margin: 0 auto;
+            }
+
+            /* Pixel Grid */
+            .pixel-tile {
+                float: left;
+                margin: 0;
+                box-sizing: border-box;
+                transition: margin-top .6s, margin-left .6s;
+            }
+
+            .test {
+                background-color: #E4CAAC;
+                border: 1px solid #A9C7D1;
+            }
+
+            .js-tile-style {
+                background-color: transparent;
+                position: absolute;
+            }
+
+            /* Sizes */
+            .pixel-grid-5.gutter-3 .pixel-tile {
+                width: 97px;
+                height: 97px;
+                margin-right: 3px;
+                margin-bottom: 3px;
+            }
+            
+            .pixel-grid-5.gutter-3 .pixel-tile.width-2 {
+                width: 197px;
+                height: 97px;
+                margin-right: 3px;
+                margin-bottom: 3px;
+            }
+            
+            .pixel-grid-5.gutter-3 .pixel-tile.width-3 {
+                width: 297px;
+                height: 97px;
+                margin-right: 3px;
+                margin-bottom: 3px;
+            }
+            
+            .pixel-grid-5.gutter-3 .pixel-tile.width-4 {
+                width: 397px;
+                height: 97px;
+                margin-right: 3px;
+                margin-bottom: 3px;
+            }
+            
+            .pixel-grid-5.gutter-3 .pixel-tile.height-2 {
+                width: 97px;
+                height: 197px;
+                margin-right: 3px;
+                margin-bottom: 3px;
+            }
+            
+            .pixel-grid-5.gutter-3 .pixel-tile.height-3 {
+                width: 97px;
+                height: 297px;
+                margin-right: 3px;
+                margin-bottom: 3px;
+            }
+            
+            .pixel-grid-5.gutter-3 .pixel-tile.height-3 {
+                width: 97px;
+                height: 297px;
+                margin-right: 3px;
+                margin-bottom: 3px;
+            }
+            
+            .pixel-grid-5.gutter-3 .pixel-tile.height-3 {
+                width: 97px;
+                height: 397px;
+                margin-right: 3px;
+                margin-bottom: 3px;
+            }
+
+            .pixel-grid.gutter-3 .pixel-tile:nth-child(5n) {
+                margin-right: 0;
+            }
+            .pixel-grid.gutter-3 .pixel-tile:nth-child(5n+1) {
+                margin-left: 3px;
+            }
+            .pixel-grid.gutter-3 .pixel-tile:nth-child(-n+6) {
+                margin-top: 3px;
+            }
+
+            /* Mobile Sizes */
+            @media only screen and (max-width: 800px) {
+                .mobile-pixel-grid-10.gutter-3 .pixel-tile {
+                    width: 48.5px;
+                    height: 48.5px;
+                    margin-right: 3px;
+                    margin-bottom: 3px;
+                }
+                
+                .mobile-pixel-grid-10.gutter-3 .pixel-tile.width-2 {
+                    width: 100px;
+                    height: 48.5px;
+                    margin-right: 3px;
+                    margin-bottom: 3px;
+                }
+                
+                .mobile-pixel-grid-10.gutter-3 .pixel-tile.width-3 {
+                    width: 151.5px;
+                    height: 48.5px;
+                    margin-right: 3px;
+                    margin-bottom: 3px;
+                }
+                
+                .mobile-pixel-grid-10.gutter-3 .pixel-tile.width-4 {
+                    width: 203px;
+                    height: 48.5px;
+                    margin-right: 3px;
+                    margin-bottom: 3px;
+                }
+                
+                .mobile-pixel-grid-10.gutter-3 .pixel-tile.height-2 {
+                    width: 48.5px;
+                    height: 100px;
+                    margin-right: 3px;
+                    margin-bottom: 3px;
+                }
+                
+                .mobile-pixel-grid-10.gutter-3 .pixel-tile.height-3 {
+                    width: 48.5px;
+                    height: 151.5px;
+                    margin-right: 3px;
+                    margin-bottom: 3px;
+                }
+                
+                .mobile-pixel-grid-10.gutter-3 .pixel-tile.height-4 {
+                    width: 48.5px;
+                    height: 203px;
+                    margin-right: 3px;
+                    margin-bottom: 3px;
+                }
+
+                .pixel-grid.gutter-3 .pixel-tile:nth-child(5n) {
+                    margin-right: 3px;
+                }
+                .pixel-grid.gutter-3 .pixel-tile:nth-child(5n+1) {
+                    margin-left: 0px;
+                }
+                .pixel-grid.gutter-3 .pixel-tile:nth-child(-n+6) {
+                    margin-top: 0px;
+                }
+                
+                .mobile-pixel-grid-10.gutter-3 .pixel-tile:nth-child(10n) {
+                    margin-right: 0;
+                }
+                .mobile-pixel-grid-10.gutter-3 .pixel-tile:nth-child(10n+1) {
+                    margin-left: 3px;
+                }
+                .mobile-pixel-grid-10.gutter-3 .pixel-tile:nth-child(-n+11) {
+                    margin-top: 3px;
+                }
+            }
+            
+            .special {
+                background-color: red;
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <div id="pixel-grid" class="mosaic-tile pixel-grid pixel-grid-5 mobile-pixel-grid-10 gutter-3">
+            <div data-mosaic-row="1" data-mosaic-col="1" class="mosaic-tile pixel-tile width-2 height-2 test special"></div>
+            <div class="mosaic-tile pixel-tile test sizer a"></div>
+            <div class="mosaic-tile pixel-tile width-2 test b"></div>
+            <div class="mosaic-tile pixel-tile height-2 test c"></div>
+            <div data-mosaic-row="0" data-mosaic-col="0" class="mosaic-tile pixel-tile width-4 test d special"></div>
+            <div class="mosaic-tile pixel-tile height-3 width-2 test e"></div>
+            <div class="mosaic-tile pixel-tile test a"></div>
+            <div class="mosaic-tile pixel-tile width-2 test b"></div>
+            <div class="mosaic-tile pixel-tile height-2 test c"></div>
+            <div class="mosaic-tile pixel-tile test a"></div>
+            <div class="mosaic-tile pixel-tile width-3 test b"></div>
+            <div class="mosaic-tile pixel-tile test c"></div>
+            <div class="mosaic-tile pixel-tile test e"></div>
+            <div class="mosaic-tile pixel-tile height-4 test e"></div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="../mosaic.js"></script>
+        <script>
+            $(document).ready(function() {
+                var test = {size: 800, columns: 5};
+                var grid = $("#pixel-grid").mosaic({
+                    tileModel: '.sizer',
+                    columns: 10,
+                    gutter: 3,
+                    layoutInPercent: false,
+                    breakpoints: [test]
+                });
+            });
+        </script>
+
+    </body>
+</html>
