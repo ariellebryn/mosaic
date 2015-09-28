@@ -214,15 +214,15 @@ _Example:_ This tile will be positioned in the 1st row, 4th column, starting fro
 
 If you want your positioned tile(s) to change their relative position at the breakpoints you specified in your options (that is, if you set any breakpoints), Mosaic can handle this as well.
 
-Instead of giving data-mosaic-row or data-mosaic-col an int, you can give either/both something like an object:
+Instead of giving data-mosaic-row or data-mosaic-col an integer, you can give either/both something like an object:
 
   `data-mosaic-row="<number> breakpoint:<int> row, breakpoint:row, ..."`
   
   `data-mosaic-col="<number> breakpoint:<int> col, breakpoint:col, ..."`
   
-**Note: Your breakpoints should correspond with the breakpoints you gave the Mosaic object. 
+**Note:** Your breakpoints should correspond with the breakpoints you gave the Mosaic object. 
 
-A breakpoint at width 0 will correspond to your default options (i.e. the options you specify outside of your breakpoints).**
+A breakpoint at width 0 will correspond to your default options (i.e. the options you specify outside of your breakpoints).
 
 _Example:_ This tile will always be in row 1, but will change its column position based on the given breakpoints and columns
 
