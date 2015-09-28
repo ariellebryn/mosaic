@@ -9,7 +9,6 @@
 3. Demos
 
 <br /><br />
-
 **MOSAIC**
 
 Mosaic is a layout framework that allows you to position "tiles" easily in a premade grid and then auto-layout more tiles around them.
@@ -28,7 +27,9 @@ Mosaic comes with two libraries: a CSS library and a JS library.
 
 **MosaicJS** lays out the grid so that everything fits together, instead of stacking elements of odd heights and widths with gaps in between. In addition, allows you to specify positions for your tiles within the grid, and will make all the necessary calculations for you. Also allows for breakpoints and other options.
 
-<br /><br />
+<br />
+----------
+<br />
 
 **Documentation**
 
@@ -77,7 +78,9 @@ _**Using MosaicCSS With MosaicJS**_
 * In the JS, `layoutInPercent: true` (this is set by default)
 
 
-<br/><br/>
+<br/>
+----------
+<br/>
 **MosaicJS**
 
 Initializing:
