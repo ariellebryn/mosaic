@@ -8,7 +8,7 @@
   * MosaicJS
 3. Demos
 
-
+<br /><br />
 
 **MOSAIC**
 
@@ -28,7 +28,7 @@ Mosaic comes with two libraries: a CSS library and a JS library.
 
 **MosaicJS** lays out the grid so that everything fits together, instead of stacking elements of odd heights and widths with gaps in between. In addition, allows you to specify positions for your tiles within the grid, and will make all the necessary calculations for you. Also allows for breakpoints and other options.
 
-
+<br /><br />
 
 **Documentation**
 
@@ -36,7 +36,7 @@ Mosaic comes with two libraries: a CSS library and a JS library.
 
 The CSS for Mosaic provides a grid framework that works well with MosaicJS, although it doesn’t have to be used in conjunction. The files are in _.scss_, and should be compiled into CSS before use.
 
-
+<br />
 _**Characteristics of MosaicCSS:**_
 
 * Everything’s in percentages
@@ -46,21 +46,22 @@ _**Characteristics of MosaicCSS:**_
 * The height of the tiles is done with padding-bottom, so the height is based on width
 
 
-
+<br />
 _**mosaic.scss**_
 
 * The main stylesheet. Here you specify the number of columns and the gutter size as integers.
 
-
+<br />
 _**mosaic.mobile.scss**_
 
 * A stylesheet that will cover one mobile breakpoint at a time. Specify the breakpoint, column number, and gutter size as integers. Compile and add together as many as you want.
 
 
-
+<br />
 _**HTML**_
 
 
+<br />
 _**Using MosaicCSS With MosaicJS**_
 
 * To use MosaicCSS with MosaicJS, make sure the container you’re using for your grid is the one containing the mosaic tiles with the appropriate classes.
@@ -83,9 +84,10 @@ Initializing:
 ```
 $(/* Container Selector */).mosaic({
                     // options go here
-                });
+});
 ```
 
+<br />
 _**Options**_
 
 _{int} columns_
@@ -115,7 +117,7 @@ _{boolean} heightFromWidth_
 _{object[]} breakpoints_
 * If at different page widths you want your grid to have different options (e.g. a different number of columns, or a different gutter size), you can specify those options with an array of breakpoint objects. (default: null)
 
-
+<br />
 _**Defaults:**_
 ```
 $.fn.mosaic.defaults = {
@@ -137,6 +139,7 @@ $.fn.mosaic.defaults = {
     };
 ```
 
+<br />
 _**Sizing**_
 
 The size of your tiles is the root of your grid, so sizing is extremely important when setting up Mosaic. There are a few different ways to do it:
@@ -166,7 +169,7 @@ The size of your tiles is the root of your grid, so sizing is extremely importan
   - Both colWidth and rowHeight are specified.
   - The first two steps of the previous two will occur.
 
-
+<br />
 _**Breakpoints**_
 
 Mosaic doesn’t automatically decide how many columns is appropriate for your grid, but you can easily give it that information. Adding breakpoints allows you to change not just the number of column or rows with changes in screen width, but also to change any option you could possibly specify.
@@ -187,6 +190,7 @@ Example:
 	}
 ```
 
+<br />
 _**Positioning Tiles**_
 
 Mosaic’s true power comes when you want to relatively position any of your tiles inside of your grid. Let’s say you have a grid with five columns, and you want one of your tiles to be on the third row, in the second column. With a library like Masonry, you’d have no guarantee that that tile will remain in the position you want it to. Mosaic will figure out all the positioning (and, if you use the CSS library, the sizing) for you, and make sure that your tile stays where you want it to (assuming your position is valid given the constraints of your grid).
@@ -194,6 +198,7 @@ Mosaic’s true power comes when you want to relatively position any of your til
 To position a tile, all you need to do is add: 
 
   `data-mosaic-row="<int>"`  This specifies the row in which to place your tile
+  
   `data-mosaic-col="<int>"`  This specifies the column in which to place your tile
   
 **Note that the rows and columns are zero-indexed**
@@ -203,7 +208,7 @@ _Example:_ This tile will be positioned in the 1st row, 4th column, starting fro
 <div class=”mosaic-tile” data-mosaic-row="1" data-mosaic-col="4"></div>
 ```
 
-
+<br />
 _**Position Breakpoints**_
 
 If you want your positioned tile(s) to change their relative position at the breakpoints you specified in your options (that is, if you set any breakpoints), Mosaic can handle this as well.
@@ -211,7 +216,9 @@ If you want your positioned tile(s) to change their relative position at the bre
 Instead of giving data-mosaic-row or data-mosaic-col an int, you can give either/both something like an object:
 
   `data-mosaic-row="<number> breakpoint:<int> row, breakpoint:row, ..."`
+  
   `data-mosaic-col="<number> breakpoint:<int> col, breakpoint:col, ..."`
+  
 **Note: Your breakpoints should correspond with the breakpoints you gave the Mosaic object. 
 
 A breakpoint at width 0 will correspond to your default options (i.e. the options you specify outside of your breakpoints).**
