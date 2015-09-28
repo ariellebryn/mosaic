@@ -32,12 +32,12 @@ Mosaic comes with two libraries: a CSS library and a JS library.
 
 #Documentation
 
-##**MosaicCSS**
+##MosaicCSS
 
 The CSS for Mosaic provides a grid framework that works well with MosaicJS, although it doesn’t have to be used in conjunction. The files are in _.scss_, and should be compiled into CSS before use.
 
 <br />
-###_**Characteristics of MosaicCSS:**_
+####Characteristics of MosaicCSS:
 
 * Everything’s in percentages
 
@@ -47,22 +47,22 @@ The CSS for Mosaic provides a grid framework that works well with MosaicJS, alth
 
 
 <br />
-###_**mosaic.scss**_
+####mosaic.scss
 
 * The main stylesheet. Here you specify the number of columns and the gutter size as integers.
 
 <br />
-###_**mosaic.mobile.scss**_
+####mosaic.mobile.scss
 
 * A stylesheet that will cover one mobile breakpoint at a time. Specify the breakpoint, column number, and gutter size as integers. Compile and add together as many as you want.
 
 
 <br />
-##_**HTML**_
+###HTML
 
 
 <br />
-##_**Using MosaicCSS With MosaicJS**_
+###Using MosaicCSS With MosaicJS
 
 * To use MosaicCSS with MosaicJS, make sure the container you’re using for your grid is the one containing the mosaic tiles with the appropriate classes.
 
@@ -78,9 +78,8 @@ The CSS for Mosaic provides a grid framework that works well with MosaicJS, alth
 
 
 <br/>
-----------
 <br/>
-#**MosaicJS**
+#MosaicJS
 
 Initializing:
 ```
@@ -90,7 +89,7 @@ $(/* Container Selector */).mosaic({
 ```
 
 <br />
-##_**Options**_
+####Options
 
 _{int} columns_
 * An integer representing the number of columns to appear in your grid (default: 1)
@@ -120,7 +119,7 @@ _{object[]} breakpoints_
 * If at different page widths you want your grid to have different options (e.g. a different number of columns, or a different gutter size), you can specify those options with an array of breakpoint objects. (default: null)
 
 <br />
-##_**Defaults:**_
+####Defaults:
 ```
 $.fn.mosaic.defaults = {
         columns: 1,
@@ -142,7 +141,7 @@ $.fn.mosaic.defaults = {
 ```
 
 <br />
-##_**Sizing**_
+####Sizing
 
 The size of your tiles is the root of your grid, so sizing is extremely important when setting up Mosaic. There are a few different ways to do it:
 
@@ -172,7 +171,7 @@ The size of your tiles is the root of your grid, so sizing is extremely importan
   - The first two steps of the previous two will occur.
 
 <br />
-##_**Breakpoints**_
+####Breakpoints
 
 Mosaic doesn’t automatically decide how many columns is appropriate for your grid, but you can easily give it that information. Adding breakpoints allows you to change not just the number of column or rows with changes in screen width, but also to change any option you could possibly specify.
 
@@ -211,7 +210,7 @@ _Example:_ This tile will be positioned in the 1st row, 4th column, starting fro
 ```
 
 <br />
-##_**Position Breakpoints**_
+####Position Breakpoints
 
 If you want your positioned tile(s) to change their relative position at the breakpoints you specified in your options (that is, if you set any breakpoints), Mosaic can handle this as well.
 
