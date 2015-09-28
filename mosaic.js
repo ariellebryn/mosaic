@@ -1,10 +1,11 @@
 /*!
- * Mosaic [WIP]
+ * Mosaic v1
  *
- * Licensing info here
+ * MIT Licensed
  *
  * Copyright 2015 Arielle Chapin
  * github.com/ariellebryn
+ * ariellechapin.me
  */
 (function($) {
     "use strict";
@@ -32,8 +33,23 @@
         return size;
     }
 
+    // Parses a string into an object
+    // Original by DigitLimit, http://stackoverflow.com/questions/1086404/string-to-object-in-js
+    var stringToObject = function(string) {
+        var fields = string.split(', ');
+        var fieldObject = {};
+
+        if( typeof fields === 'object' ){
+            $.each(fields, function(field) {
+                var c = fields[field].split(':');
+                fieldObject[c[0]] = c[1];
+            });
+        }
+
+        return fieldObject;
+    }
+
     /*      Constants   */
-    // TODO: Make a getStyleProperty thing (kangax)
     var TILE_STYLE = 'js-tile-style';
     var MARGIN_TOP = 'margin-top';
     var MARGIN_LEFT = 'margin-left';
@@ -43,17 +59,24 @@
 
 
     /*		Tile		*/
+    /**
+     * A Tile in the Grid
+     *      <Element> element : the DOM element associated with this Tile
+     *      <int> id : the unique id of this Tile
+     */
     var Tile = function(element, id) {
+        // If available, the position objects or numbers
+        this.rowPosition = null;
+        this.colPosition = null;
+
         // Defaults (-1 means a default placement will be found)
         this.row = -1;
         this.col = -1;
         this.width = 1;
         this.height = 1;
 
-        // Significant when the actual height/width
-        // is greater than maxRows/maxCols, respectively
-        this.effectiveHeight = 1;
-        this.effectiveWidth = 1;
+        // Significant when the actual width is greater than maxCols
+        this.effectiveWidth = this.width;
 
         // ID for easy reference if tile moves
         this.id = id;
@@ -62,7 +85,18 @@
         this.element = element;
     }
 
-    // Calculates the number of rows and columns the tile takes up
+    // If assigned col + width is greater than column max, set to default
+    Tile.prototype.fixWidth = function(colMax) {
+        this.col = ((this.col + this.width - 1) <= colMax) ? this.col : -1;
+    }
+
+    /**
+     * Calculates the number of rows and columns the tile takes up
+     *      <double> colSize : the actual width of a column on the page
+     *      <double> rowSize : the actual height of a row on the page
+     *      <double> gutter : the gutter size
+     *      <int> columns : the number of columns in the grid
+     */
     Tile.prototype.getSize = function(colSize, rowSize, gutter, columns) {
         var width = $(this.element).outerWidth() + gutter;
         var colSpan = Math.min(Math.round(width/colSize), columns);
@@ -71,36 +105,114 @@
         var rowSpan = Math.round(height/rowSize);
 
         this.width = colSpan;
+        this.effectiveWidth = this.width;
         this.height = rowSpan;
     }
 
-    // Gets specified positions, if any, from the data
-    // attributes of the tile
-    // TODO: Expand to take in an object?
-    Tile.prototype.getPos = function(colMax) {
+    /**
+     * Parses a position object to get the position for
+     * the current size
+     *      <Object> obj : the object that holds the positions
+     */
+    Tile.prototype.getPosFromObject = function(obj) {
+        var num = -1;
+        var size = _breakpoints[_lowerIndex].size;
+        var sizeIndex = (size == -1) ? 0 : size;
+        num = obj[sizeIndex];
+        if (!num)
+            num = -1;
+
+        return parseInt(num);
+    }
+
+    /**
+     * Gets specified positions, if any, from the data
+     * attributes of the tile
+     *      <int> colMax : the maximum number of columns (0-indexed)
+     */
+    Tile.prototype.getPosInfo = function(colMax) {
         var row = $(this.element).attr('data-mosaic-row');
         var col = $(this.element).attr('data-mosaic-col');
+        var num; var obj;
 
-        if (row && stringIsPositiveInteger(row))
-            this.row = parseInt(row);
+        if (row) {
+            if (stringIsPositiveInteger(row)) {
+                num = parseInt(row);
+                this.rowPosition = num; 
+            } else {
+                this.rowPosition = stringToObject(row);
+                num = this.getPosFromObject(this.rowPosition);
+            }
 
-        if (col && stringIsPositiveInteger(col)) {
-            col = parseInt(col);
+            this.row = num;
+        }
 
-            // If assigned col = width is greater than column max, set to default
-            this.col = ((col + this.width - 1) <= colMax) ? col : -1;
+
+        if (col) {
+            if (stringIsPositiveInteger(col)) {
+                num = parseInt(col);
+                this.colPosition = num;
+            } else {
+                this.colPosition = stringToObject(col);
+                num = this.getPosFromObject(this.colPosition);
+            }
+
+            this.col = num;
+            this.fixWidth(colMax);
         }
 
     }
 
-    // Sets the margin-top and margin-left of the element to the given values
+    /**
+     * Get the appropriate position of the tile
+     *      <int> colMax : max column index
+     */
+    Tile.prototype.getPos = function(colMax) {
+        if (this.colPosition) {
+            if (isNaN(this.colPosition)) {
+                this.col = this.getPosFromObject(this.colPosition);
+                this.fixWidth(colMax);
+            }
+        } else {
+            this.col = -1;
+        }
+
+        if (this.rowPosition) {
+            if (isNaN(this.rowPosition)) {
+                this.row = this.getPosFromObject(this.rowPosition);
+            } else {
+                this.row = -1;
+            }
+        }
+    }
+
+    /**
+     * Sets the margin-top and margin-left of the element to the given values,
+     * which is how the Tiles are positioned on the screen
+     *      <double> marginTop : the number to set the Tile's margin-top to
+     *      <double> marginLeft : the number to set the Tile's margin-left to
+     *      <string> suffix : '%' or 'px'
+     */
     Tile.prototype.setMarginTopLeft = function(marginTop, marginLeft, suffix) {
         $(this.element).addClass(TILE_STYLE);
         $(this.element).css(MARGIN_TOP, marginTop + suffix);
         $(this.element).css(MARGIN_LEFT, marginLeft + suffix);
     }
 
+    // Destroy the tile
+    Tile.prototype.destroy = function() {
+        var el = $(this.element);
+        el.removeClass(TILE_STYLE);
+        el.css(MARGIN_TOP, '');
+        el.css(MARGIN_LEFT, '');
+    }
+
     /*		Grid		*/
+    /**
+     * The containing Grid
+     *      <Element> container : The DOM element to contain the Grid
+     *      <Object> options : All the various options and their settings
+     */
     var Grid = function(container, options) {
         this.container = container;
 
@@ -109,6 +221,7 @@
         this.colMax = options.columns - 1;
 
         this.rows = options.rows;
+        this.rowMax = this.rows - 1;
 
         // Column and row sizeS
         this.setupSizes(options);
@@ -119,12 +232,15 @@
         // 2D Array to store positions of all tiles,
         // default with first row
         this.grid = [this.newRow()];
+        if (this.rows)
+            this.fillRowsUpTo(this.rowMax);
 
         // Default position of a tile
         // The first empty slot in the grid
         this.defaultPos = {row: 0, col: 0};
 
-        // Associative array of DOM Elements to their corresponding Tile
+        // Associative array of tile ids to their corresponding Tile
+        this.tiles = {};
         this.defaultTiles = {}; // With no specified position
         this.assignedTiles = {};  // With a specified position
     }
@@ -153,33 +269,42 @@
     /*------- reset -------*/
 
     // Resets grid and empties out all tiles
-    // TODO: Is this ever necessary?
     Grid.prototype.reset = function() {
         this.grid = [this.newRow()];
         this.defaultPos = {row: 0, col: 0};
+        $('.' + TILE_SELECTOR).removeClass(TILE_STYLE);
         this.defaultTiles = {};
         this.assignedTiles = {};
-        this.idCounter = 0;
     }
 
-    // Resets grid layout, but keeps all tiles
-    Grid.prototype.softReset = function() {
-        this.grid = [this.newRow()];
-        this.defaultPos = {row: 0, col: 0};
-        this.idCounter = 0; // TODO: Is this useful?
+    // Destroys all tiles
+    Grid.prototype.destroy = function() {
+        $('.' + TILE_SELECTOR).removeClass(TILE_STYLE);
+        for (var i in this.tiles) {
+            this.tiles[i].destroy();
+        }
+        this.defaultTiles = null;
+        this.assignedTiles = null;
+        this.tiles = null;
     }
 
     /*------- setup -------*/
 
-    // Sets up new layut at certain breakpoint
+    /**
+     * Sets up new layout at certain breakpoint
+     *      <Object> options : All the various options and their settings
+     */
     Grid.prototype.setToBreakpoint = function(options) {
         if (options.columns && isPositiveInteger(options.columns)) {
-            console.log("Setting columns to " + options.columns);
             this.columns = options.columns;
             this.colMax = this.columns - 1;
         }
 
-        // TODO: Add in row thing
+        if (options.rows) {
+            this.rows = options.rows;
+            this.rowMax = this.rows - 1;
+        }
+
 
         this.reset();
         this.setupSizes(options);
@@ -187,8 +312,11 @@
         this.layoutTiles();
     }
 
-    // Sets up the row, col, and gutter sizes, as well as all
-    // relevant info
+    /**
+     * Sets up the row, col, and gutter sizes, as well as all
+     * relevant info
+     *      <Object> options : All the various options and their settings
+     */
     Grid.prototype.setupSizes = function(options) {
         this.layoutInPercent = options.layoutInPercent;
         this.heightSource = options.heightFromWidth ? WIDTH : HEIGHT;
@@ -209,12 +337,25 @@
                 this.colSize = ((max - this.gutter)/this.columns);
             }
 
-            // If a height is specified, use it, else use the column height
-            this.rowSize = options.rowHeight ? (this.getGivenSize(options.rowHeight, HEIGHT)+this.gutter) : this.colSize;
+            if (options.rowHeight) {
+                // If a height is specified, use it
+                this.rowSize = this.getGivenSize(options.rowHeight, HEIGHT) + this.gutter;
+            } else if (this.rows) {
+                // If rows is specified, compute size
+                var containerHeight = getComputedSize(this.container, this.heightSource);
+                var max = 100*this.layoutInPercent + containerHeight*!this.layoutInPercent;
+                this.rowSize = ((max - this.gutter)/this.rows);
+            } else {
+                // If not other row specification, use column size
+                this.rowSize = this.colSize;
+            }
         }
     }
 
-    // Pulls height and width from a sizing model
+    /**
+     * Pulls height and width from a sizing model
+     *      <string> modelStr : the string to be used as a selector for the sizing model element
+     */
     Grid.prototype.getSizesFromModel = function(modelStr) {
         var model = document.querySelector(modelStr);
         if (model) {
@@ -225,16 +366,25 @@
         }
     }
 
-    // Get the given size (width or height, depending on 'property') of element with
-    // selector 'selector'
+    /**
+     * Get the given size (width or height, depending on 'property') of element with
+     * selector 'value'
+     *      <string>||<double> value : either a selector for a DOM element or a number
+     *      <string> property : the property being found from value
+     */
     Grid.prototype.getGivenSize = function(value, property) {
-        if (typeof selector === 'string') {
+        if (typeof value === 'string') {
             var el = document.querySelector(value);
             if (el) {
                 var containerSize = getComputedSize(this.container, property);
 
-                // TODO: Might need to check to make sure containerSize is available
-                var multiplier = (1/containerSize)*this.layoutInPercent + 1*!this.layoutInPercent;
+                // Make sure containerSize is valid
+                if (containerSize) {
+                    error("[Mosaic] ERROR: '" + selector + "' Couldn't find " + property + " of container.");
+                    return 0;
+                }
+                
+                var multiplier = (1/containerSize)*this.layoutInPercent + !this.layoutInPercent;
 
                 var result = getComputedSize(el, property) * multiplier;
 
@@ -251,42 +401,60 @@
 
     /*------- read -------*/
 
-    // Reads in the children of the container and
-    // makes them into tiles
+    // Reads in the children of the container and makes them into tiles
     Grid.prototype.readTiles = function() {
-        var children = this.getChildren();
-
-        // TODO: Abstract out these multipliers, since I use them so many times??
         // Gets an accurate reading of the column and row size if they should be in percentages
         var colMult = this.layoutInPercent * getComputedSize(this.container, WIDTH) * .01 + !this.layoutInPercent;
         var rowMult = this.layoutInPercent * getComputedSize(this.container, this.heightSource) * .01 + !this.layoutInPercent;
         var col = this.colSize * colMult;
         var row = this.rowSize * rowMult;
         console.log("Colsize: " + this.colSize + ", rowsize: " + this.rowSize + "; " + "Col: " + col + ", row: " + row);
-        
-        this.setupTiles(children, col, row);
+
+        if (this.tiles)
+            this.setupTiles(col, row);
+        else
+            this.recalibrateTiles(col, row);
     }
 
-    // For every tile with the appropriate class, set up
-    // the Tile, get its sizing and positioning,
-    // and organize it into its appropriate object
-    Grid.prototype.setupTiles = function(children, col, row) {
+    /**
+     * For every tile with the appropriate class, set up
+     * the Tile, get its sizing and positioning,
+     * and organize it into its appropriate object
+     *      <Element[]> children : the children of the grid parent
+     *      <int> col : the column width, in pixels
+     *      <int> row : the row height, in pixels
+     */
+    Grid.prototype.setupTiles = function(col, row) {
+        var children = this.getChildren();
         for (var i = 0; i < children.length; i++) {
             var el = children[i];
             if ($(el).hasClass(TILE_SELECTOR)) {
                 var tile = new Tile(el, this.getNextId());
 
                 tile.getSize(col, row, this.gutter, this.columns);
-                tile.getPos(this.colMax);
+                tile.getPosInfo(this.colMax);
 
                 // Separate tiles into appropriate object
-                if (tile.row != -1 && tile.col != -1) {
-                    console.log("Tile assigned to " + tile.row + " and " + tile.col);
-                    this.assignedTiles[tile.id] = tile;
-                } else
-                    this.defaultTiles[tile.id] = tile;
+                this.organizeTile(tile);
+                this.tiles[tile.id] = tile;
             }
         }
+    }
+
+    Grid.prototype.recalibrateTiles = function(col, row) {
+        for (id in this.tiles) {
+            tile.getSize(col, row, this.gutter, this.columns);
+            tile[id].getPos(this.colMax);
+            this.organizeTile(tile);
+        }
+    }
+
+    Grid.prototype.organizeTile = function(tile) {
+        if (tile.row != -1 && tile.col != -1) {
+            console.log("Tile assigned to " + tile.row + " and " + tile.col);
+            this.assignedTiles[tile.id] = tile;
+        } else
+            this.defaultTiles[tile.id] = tile;
     }
 
     /*------- position -------*/
@@ -298,27 +466,40 @@
             var tile = this.assignedTiles[id];
 
             // Fill up grid rows if necessary
-            var lastRow = tile.row + tile.height;
-            if (lastRow > this.grid.length)
-                this.fillRowsUpTo(tile.row + tile.height);
+            var lastRow = tile.row + tile.height - 1;
 
-            this.fillPosition(tile);
+            // Only proceed if under the row limit, if there is one
+            if (!this.rows || lastRow <= this.rowMax) {
+                if (lastRow >= this.grid.length)
+                    this.fillRowsUpTo(tile.row + tile.height);
 
-            // Check if default pos has been filled
-            if (this.grid[this.defaultPos.row][this.defaultPos.col] < 0)
-                this.newDefaultPos();
+                this.fillPosition(tile);
 
-            this.positionTile(tile);
+                // Check if default pos has been filled
+                if (this.grid[this.defaultPos.row][this.defaultPos.col] < 0)
+                    this.newDefaultPos();
+
+                this.positionTile(tile); 
+            }
         }
         for(id in this.defaultTiles) {
             var tile = this.defaultTiles[id];
 
+            // If the default position goes beyond an existing row limit, end layouting
+            if (this.rows && this.defaultPos.row > this.rowMax)
+                return;
+
+            // If this tile is too tall, skip it
+            if (this.rows && tile.height > this.rows)
+                continue;
+
             // Set the effective sizes (if size is larger than max, set to max)
-            tile.effectiveHeight = (this.rows && tile.height > this.rows) ? this.rows : tile.height;
             tile.effectiveWidth = (tile.width > this.columns) ? this.columns : tile.width;
 
-            this.findDefaultPosition(tile);
-            this.positionTile(tile);
+            var foundPos = this.findDefaultPosition(tile);
+
+            if (foundPos)
+                this.positionTile(tile);
         }
     }
 
@@ -331,7 +512,10 @@
         this.defaultPos.col = defRowCol.col;
     }
 
-    // Increment a row, adding a new row if necessary
+    /** 
+     * Increment a row, adding a new row if necessary
+     *     <int> row : the current row
+     */
     Grid.prototype.incrementRow = function(row) {
         row++;
         if (this.grid[row] == undefined) {
@@ -340,7 +524,11 @@
         return row;
     }
 
-    // Finds the next free slot
+    /**
+     * Finds the next free slot
+     *      <int> row : the current row
+     *      <int> col : the current col
+     */      
     Grid.prototype.checkNextPos = function(row, col) {
         // If beyond grid bounds or on a filled slot,
         // keep iterating through
@@ -356,15 +544,22 @@
         return {row: row, col: col};
     }
 
-    // TODO: shorten
-    // Finds the first position that fits the given tile
+    /*
+     * Finds the first position that fits the given tile;
+     * if a valid position is found, return true, else false
+     *      <Tile> tile : the tile to find the first available position for
+     */     
     Grid.prototype.findDefaultPosition = function(tile) {
         var row, topRow, col, leftCol;
         row = topRow = this.defaultPos.row;
         col = leftCol = this.defaultPos.col;
 
         // Loop through finding process until a slot is found
-        while (row - topRow < tile.effectiveHeight) {
+        while (row - topRow < tile.height) {
+            // Don't allow beyond row limit, if available
+            if (this.rows && row > this.rowMax)
+                return false;
+
             // If the width of the tile doesn't fit,
             // find next possible position
             if (!(this.grid[row][col] - tile.effectiveWidth >= 0)) {
@@ -391,28 +586,62 @@
             this.newDefaultPos();
         }
 
-        return tile;
+        return true;
     }
 
-    // Takes the given tile and fills the grid
-    // TODO: So many nested things--double-check for a better way
+    /**
+     * Takes the given tile and fills the grid
+     *      <Tile> tile : the tile to fill the position of
+     */
     Grid.prototype.fillPosition = function(tile) {
-        for (var i = tile.row; i < tile.row + tile.height; i++) {
-            for (var k = tile.col - 1; k >= 0; k--) {
-                if (this.grid[i][k] < 0)
-                    break;
-                else
-                    this.grid[i][k] = tile.col - k;
-            }
+        // Is true if when looking to the left of tile.col we've encountered no filled spaces
+        var uninterrupted = true;
+        // Returns true if the next space to the left of tile.col should be filled
+        var spaceBeforeTile = function(col) { return (col >= 0 && uninterrupted); }
+        // Returns true if the next space to the right of tile.col should be filled
+        var spaceWithinTile = function(col) { return (col < tile.col + tile.effectiveWidth); }
 
-            for (var j = tile.col; j < tile.col + tile.width; j++) {
-                this.grid[i][j] = j - tile.col - tile.width;
+
+        for (var i = tile.row; i < tile.row + tile.height; i++) {
+
+            // Fills tile.col
+            this.grid[i][tile.col] = -1 * tile.effectiveWidth;
+
+            var bef, aft; uninterrupted = true;
+            // Fills in spaces in both directions away from tile.col
+            for (var j = 1; spaceBeforeTile(tile.col - j) || spaceWithinTile(tile.col + j); j++) {
+                bef = tile.col - j; aft = tile.col + j;
+
+                if (spaceBeforeTile(bef)) {
+                    if (this.grid[i][bef] > 0) {
+                        this.grid[i][bef] = j;
+                    } else {
+                        uninterrupted = false;
+                    }
+                }
+
+                if (spaceWithinTile(aft))
+                    this.grid[i][aft] = j - tile.effectiveWidth;
+
+                //            for (var k = tile.col - 1; k >= 0; k--) {
+                //                if (this.grid[i][k] < 0)
+                //                    break;
+                //                else
+                //                    this.grid[i][k] = tile.col - k;
+                //            }
+                //
+                //            for (var j = tile.col; j < tile.col + tile.effectiveWidth; j++) {
+                //                this.grid[i][j] = j - tile.col - tile.width;
+                //            }
             }
         }
     }
 
-    // Fills up default rows between the last row
-    // and the given row number
+    /**
+     * Fills up default rows between the last row
+     * and the given row number
+     *      <int> row : the row to fill up to with default rows
+     */
     Grid.prototype.fillRowsUpTo = function(row) {
         for (var i = this.grid.length; i <= row; i++) {
             this.grid[i] = this.newRow();
@@ -421,50 +650,37 @@
 
     /*------- display -------*/
 
-    // Calculates and sets the actual position of the given tile
+    /**
+     * Calculates and sets the actual position of the given tile
+     *      <Tile> tile : the tile to set the position of
+     */
     Grid.prototype.positionTile = function(tile) {
         var suffix = this.layoutInPercent ? '%' : 'px';
         tile.setMarginTopLeft((tile.row * this.rowSize) + this.gutter, (tile.col * this.colSize) + this.gutter, suffix);
     }
 
-
-    /*------- debug -------*/
-
-    Grid.prototype.printTiles = function() {
-        for(tile in this.assignedTiles) {
-            console.log(this.assignedTiles[tile]);
-        }
-        for(tile in this.defaultTiles) {
-            console.log(this.defaultTiles[tile]);
-        }
-    }
-
-    Grid.prototype.printGrid = function() {
-        for (var i = 0; i < this.grid.length; i++) {
-            console.log(i + ": " + this.grid[i].join("\t"));
-        }
-        console.log("-------------------");
-    }
-
-    var printObjectArray = function(a) {
-        console.log("Printing array: ");
-        for (var i = 0; i < a.length; i++) {
-            console.log(a[i]);
-        }
-    }
-
     /*      jQuery Plugin       */
     var _breakpoints = [];
     var _lowerIndex = 0;
+    var _currBreakpoint; // Index of the current breakpoint
+    var resizeHandler = function(){};
+    var grids = [];
 
-    // Make sure the breakpoints are in order by size from lowest to highest
+    /**
+     * Make sure the breakpoints are in order by size from lowest to highest
+     *      <int[]> breakpoints : the array of breakpoints and their associated options
+     */
     var sortBreakpoints = function(breakpoints) {
         _breakpoints = breakpoints.sort(function(a,b){return a.size - b.size;});
     }
 
-    // Find the initial lower breakpoint
-    var findLowerBreakpoint = function(size) {
-        for (var i = 0; i < _breakpoints.length; i++) {
+    /**
+     * Finds the max breakpoint, given a starting index
+     *      <int> start : the initial index to start searching from
+     *      <int> size : the browser width
+     */
+    var searchBreakpointsIncreasing = function (start, size) {
+        for (var i = start; i < _breakpoints.length; i++) {
             if (size < _breakpoints[i].size) {
                 return;
             } else {
@@ -473,21 +689,26 @@
         }
     }
 
-    // TODO: See if this can be optimized?
-    // Try the breakpoints around the current one to see if a new breakpoint is
-    // necessary, and if so, which one?
+    /**
+     * Find the initial lower breakpoint
+     *      <int> size : the browser width
+     */
+    var findLowerBreakpoint = function(size) {
+        searchBreakpointsIncreasing(0, size);
+    }
+
+    /**
+     * Try the breakpoints around the current one to see if a new breakpoint is
+     * necessary, and if so, find the appropriate breakpoint
+     *      <int> size : the browser width
+     */
     var tryBreakpoints = function(size) {
-        console.log("New size: " + size);
         var i;
         if (size > _breakpoints[_lowerIndex].size) {
-            for (i = _lowerIndex+1 ; i < _breakpoints.length; i++) {
-                if (size < _breakpoints[i].size) {
-                    return;
-                } else {
-                    _lowerIndex = i;
-                }
-            }
+            // If size is greater than current breakpoint size, look for greater breakpoints
+            searchBreakpointsIncreasing(_lowerIndex+1, size);
         } else if (size < _breakpoints[_lowerIndex].size) {
+            // If size is lower than current breakpoint size, look for lower breakpoints
             for (i = _lowerIndex-1 ; i >= 0; i--) {
                 if (size >= _breakpoints[i].size) {
                     _lowerIndex = i;
@@ -497,62 +718,90 @@
         }
     }
 
+    var breakpointHandler = function(opts) {
+        tryBreakpoints(window.innerWidth);
+        if (_lowerIndex != _currBreakpoint) {
+            var tempOpts = $.extend({}, opts);
+            var newOpts = $.extend(tempOpts, _breakpoints[_lowerIndex]);
+
+            for (var i in grids) {
+                grids[i].setToBreakpoint(newOpts);
+            }
+            _currBreakpoint = _lowerIndex;
+        }
+    }
+
+    // Read and layout tiles
+    var startGrid = function(grid) {
+        grid.readTiles();
+        grid.layoutTiles();
+    }
+
     $.fn.mosaic = function(options) {
         var opts = $.extend({}, $.fn.mosaic.defaults, options);
+        var ret;
 
         if (opts.breakpoints) {
             if(!Array.isArray(opts.breakpoints))
                 return this;
 
             var newOpts;
-            var currBreakpoint; // Index of the current breakpoint
             opts.breakpoints.push({size:-1});
 
             sortBreakpoints(opts.breakpoints);
-            printObjectArray(opts.breakpoints);
 
             // Figure out the current window size and assign options
             findLowerBreakpoint(window.innerWidth);
-            currBreakpoint = _lowerIndex;
+            _currBreakpoint = _lowerIndex;
 
             var tempOpts = $.extend({}, opts);
-            newOpts = $.extend(tempOpts, _breakpoints[_lowerIndex]);
-            var grid =  new Grid(this[0], newOpts); // TODO: Make for each
-            grid.readTiles();
-            grid.layoutTiles();
-
-            window.addEventListener('resize', 
-                                    function() {
-                tryBreakpoints(window.innerWidth);
-                console.log("Index " + _lowerIndex + " for size " + _breakpoints[_lowerIndex].size);
-                if (_lowerIndex != currBreakpoint) {
-                    tempOpts = $.extend({}, opts);
-                    newOpts = $.extend(tempOpts, _breakpoints[_lowerIndex]);
-                    grid.setToBreakpoint(newOpts);
-                    currBreakpoint = _lowerIndex;
-                }
-
+            newOpts = $.extend(tempOpts, _breakpoints[_lowerIndex]);            
+            var curr;
+            ret = this.each(function() {
+                curr = new Grid(this, newOpts);
+                grids.push(curr);
+                startGrid(curr);
             });
 
-            return this;
+            resizeHandler = function() {breakpointHandler(opts);};
+            window.addEventListener('resize', resizeHandler);
+
+            return ret;
         }
 
-        var grid =  new Grid(this[0], opts); // TODO: Make for each
-        grid.readTiles();
-        grid.layoutTiles();
+        ret = this.each(function() {
+            curr = new Grid(this, opts);
+            grids.push(curr);
+            startGrid(curr);
+        });
 
-        return this;
+        return ret;
     }
 
     $.fn.mosaic.defaults = {
         columns: 1,
+        rows: null,
         gutter: 0,
         colWidth: null,
         rowHeight: null,
         tileModel: null,
+
+        // If your layout is all in percentages
         layoutInPercent: true,
-        heightFromWidth: false, // If your height is actually padding-bottom, it depends on the width, not the height, of the parent
-        rows: null, // TODO: Limit rows?
+
+        // If your height is actually padding-bottom, it depends on the width, not the height, of the parent
+        heightFromWidth: false, 
+
+        // To be used if the grid layout should be changed with different browser widths
         breakpoints: null
+    };
+
+    // Destroy this instance
+    $.fn.mosaic.destroy = function() {
+        window.removeEventListener('resize', resizeHandler);
+        for (var i in grids) {
+            grids[i].destroy();
+        }
+        grids = [];
     };
 }(jQuery));

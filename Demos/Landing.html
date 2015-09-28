@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <meta charset="UTF-8"> 
+        <title>Demo</title>
+
+        <!-- FONTS -->
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Raleway:400,900,700,800,600,500,300' rel='stylesheet' type='text/css'>
+
+        <!-- STYLESHEETS -->
+        <link href='css/landing.css' rel='stylesheet'>
+        <link href='css/landing.mosaic.css' rel='stylesheet'>
+        <link href='css/landing.mobile1.css' rel='stylesheet'>
+        <link href='css/landing.mobile2.css' rel='stylesheet'>
+    </head>
+    <body>
+
+        <div class="nav">
+            <ul>
+                <li class="link home">MosaicJS</li>
+                <li class="link">Demos</li>
+                <li class="link">Documentation</li>
+                <li class="link">Download</li>
+            </ul>
+        </div>
+
+        <div id="mosaic-grid" class="mosaic-grid">
+            <div data-mosaic-row="1" data-mosaic-col="0: 0, 700: 4, 1200: 5" class="mosaic-tile height-2 width-3 test title">
+                <div class="content">
+                    MosaicJS
+                    <span class="sub">Masonry with relatively-positioned tiles</span>
+                </div>
+            </div>
+
+            <div class="mosaic-tile size width-2 height-2 test b"></div>
+            <div class="mosaic-tile test sizer a"></div>
+            <div class="mosaic-tile width-2 test b"></div>
+            <div class="mosaic-tile height-2 test c"></div>
+            <div class="mosaic-tile width-4 test d"></div>
+            <div class="mosaic-tile height-3 width-2 test a"></div>
+            <div class="mosaic-tile test a"></div>
+            <div class="mosaic-tile width-2 test b"></div>
+            <div class="mosaic-tile height-2 test c"></div>
+            <div class="mosaic-tile height-3 test d"></div>
+            <div class="mosaic-tile test a"></div>
+            <div class="mosaic-tile width-3 test b"></div>
+            <div class="mosaic-tile test c"></div>
+            <div class="mosaic-tile test b"></div>
+            <div class="mosaic-tile height-2 test c"></div>
+            <div class="mosaic-tile test d"></div>
+            <div class="mosaic-tile test b"></div>
+            <div class="mosaic-tile test d"></div>
+            <div class="mosaic-tile width-2 test a"></div>
+            <div class="mosaic-tile width-3 test c"></div>
+            <div class="mosaic-tile test d"></div>
+            <div class="mosaic-tile test a"></div>
+            <div class="mosaic-tile width-2 test b"></div>
+            <div class="mosaic-tile width-3 test c"></div>
+            <div class="mosaic-tile test d"></div>
+            <div class="mosaic-tile test b"></div>
+            <div class="mosaic-tile width-2 test a"></div>
+            <div class="mosaic-tile test c"></div>
+        </div>
+        <section class="etc">
+        </section>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="../mosaic.js"></script>
+        <script>
+            $(document).ready(function() {
+                var test = {size: 1200, columns: 10};
+                var test2 = {size: 700, columns: 8};
+                var grid = $("#mosaic-grid").mosaic({
+                    tileModel: '.sizer',
+                    columns: 3,
+                    gutter: 1,
+                    heightFromWidth: true,
+                    breakpoints: [test, test2]
+                });
+
+                $(".link").click(function() {
+                    $(".active").removeClass("active");
+                    $(this).addClass("active"); 
+                });
+            });
+        </script>
+
+    </body>
+</html>
