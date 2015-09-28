@@ -14,7 +14,7 @@
 
 Mosaic is a layout framework that allows you to position "tiles" easily in a premade grid and then auto-layout more tiles around them.
 
-Inspired by Masonry, and similar to Packery (both by github.com/desandro), Mosaic is great for mixing dynamic and static content in the same layout.
+Inspired by [Masonry](http://masonry.desandro.com/), and similar to [Packery](http://packery.metafizzy.co/) (both by [desandro](http://github.com/desandro)), Mosaic is great for mixing dynamic and static content in the same layout.
 
 Like Packery, you can specify tiles that you want to essentially keep the same position. Unlike Packery, your positioned tiles are positioned relative to the grid you're using, and so is already entirely integrated into your layout.
 
@@ -76,8 +76,9 @@ _**Using MosaicCSS With MosaicJS**_
 * In the JS, `layoutInPercent: true` (this is set by default)
 
 
-
+<br/><br/>
 **MosaicJS**
+
 Initializing:
 ```
 $(/* Container Selector */).mosaic({
