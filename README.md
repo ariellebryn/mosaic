@@ -19,7 +19,7 @@
     - Position Breakpoints
 3. Demos
 
-<br /><
+<br />
 #Mosaic
 
 Mosaic is a layout framework that allows you to position "tiles" easily in a premade grid and then auto-layout more tiles around them.
