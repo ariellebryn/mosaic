@@ -221,13 +221,19 @@ The size of your tiles is the root of your grid, so sizing is extremely importan
                     colWidth: 10 // Default unit type is percent
    });
   ```
+  ```
+  $("#mosaic-grid).mosaic({
+                    columns: 10,
+                    colWidth: '.width-sizer'
+   });
+  ```
 * A rowHeight is specified
   - Mosaic recognizes if the given value is a number value, in which case it directly assigns the value, or a string, in which case it’s taken as a selector. If it’s taken as a selector, it will find the appropriate element and pull its height.
   - If layoutInPercent = true, the height found from either method will be taken as/converted into a percent, respectively.
   ```
   $("#mosaic-grid).mosaic({
                     columns: 10,
-                    rowHeight: 15 // Default unit type is percent
+                    rowHeight: .height-sizer'
    });
   ```
   - colWidth will be set to the same value.
