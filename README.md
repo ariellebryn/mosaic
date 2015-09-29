@@ -233,7 +233,7 @@ The size of your tiles is the root of your grid, so sizing is extremely importan
   ```
   $("#mosaic-grid).mosaic({
                     columns: 10,
-                    rowHeight: .height-sizer'
+                    rowHeight: '.height-sizer'
    });
   ```
   - colWidth will be set to the same value.
@@ -305,3 +305,9 @@ _Example:_ This tile will always be in row 1, but will change its column positio
 
 	`<div data-mosaic-row="1" data-mosaic-col="0: 0, 700: 4, 1200: 5" class="mosaic-tile”></div>`
 
+<br />
+<br />
+
+#Demos
+
+####Coming soon!
