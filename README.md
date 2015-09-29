@@ -5,10 +5,21 @@
   * MosaicJS
 2. Documentation
   * MosaicCSS
+    - Characteristics of MosaicCSS
+    - mosaic.scss
+    - mosaic.mobile.scss
+    - HTML
+    - Using MosaicCSS With MosaicJS
   * MosaicJS
+    - Options
+    - Defaults
+    - Sizing
+    - Breakpoints
+    - Positioning Tiles
+    - Position Breakpoints
 3. Demos
 
-<br /><br />
+<br /><
 #Mosaic
 
 Mosaic is a layout framework that allows you to position "tiles" easily in a premade grid and then auto-layout more tiles around them.
@@ -60,6 +71,25 @@ The CSS for Mosaic provides a grid framework that works well with MosaicJS, alth
 <br />
 ###HTML
 
+* For a square tile that spans only one column and one row, all you need to add is the class `mosaic-tile`:
+```
+<div class="mosaic-tile"></div>
+```
+
+* For a tile that spans more than one column, add the class `width-<#>`, where `<#>` is a number from 1 to 10:
+```
+<div class="mosaic-tile width-4"></div>
+```
+
+* For a tile that spans more than one row, add the class `height-<#>`, where `<#>` is a number from 1 to 10:
+```
+<div class="mosaic-tile height-2"></div>
+```
+
+* `width` and `height` can be mixed and matched to make different tile sizes:
+```
+<div class="mosaic-tile width-3 height-2"></div>
+```
 
 <br />
 ###Using MosaicCSS With MosaicJS
@@ -119,7 +149,7 @@ _{object[]} breakpoints_
 * If at different page widths you want your grid to have different options (e.g. a different number of columns, or a different gutter size), you can specify those options with an array of breakpoint objects. (default: null)
 
 <br />
-####Defaults:
+####Defaults
 ```
 $.fn.mosaic.defaults = {
         columns: 1,
@@ -150,25 +180,66 @@ The size of your tiles is the root of your grid, so sizing is extremely importan
   - Mosaic will figure out your column width programmatically by dividing up the container width by the number of columns. Row size will be the same as column size.
   - If layoutInPercent = true, it will divide 100 by the number of columns, and will take this as a percentage.
   - If given a gutter size, it will take the gutter into account when programmatically finding the size.
+  ```
+  $("#mosaic-grid").mosaic({
+                    columns: 10
+   });
+  ```
 * Only specify rows
-  - Mosaic will figure out your row height programmatically by dividing up the container height by the number of columns. Column size will be the same as row size.
+  - Mosaic will figure out your row height programmatically by dividing up the container height by the number of columns. Columns will equal 1 by default, and so will have a width of 100% (minus gutter).
   - IF layoutInPercent = true, it will divide 100 by the number of columns and will take this as a percentage.
   - If given a gutter size, it will take the gutter into account when programmatically finding the size.
+  ```
+  $("#mosaic-grid").mosaic({
+                    rows: 10
+   });
+  ```
 * Both rows and columns are specified
   - The first steps of each of the previous will occur, each being set separately.
+  ```
+  $("#mosaic-grid").mosaic({
+                    columns: 10,
+                    rows: 10
+   });
+  ```
 * A tileModel is given
   - Mosaic will find the element specified with tileModel and will pull its width and height (which will depend on your heightFromWidth, which by default is false).
   - If layoutInPercent = true, it will pull the height and width and then convert those values into percents based on the container.
+  ```
+  $("#mosaic-grid).mosaic({
+                    columns: 10,
+                    tileModel: '.sizer'
+   });
+  ```
 * A colWidth is specified
   - Mosaic recognizes if the given value is a number value, in which case it directly assigns the value, or a string, in which case it’s taken as a selector. If it’s taken as a selector, it will find the appropriate element and pull its width.
   - If layoutInPercent = true, the width found from either method will be taken as/converted into a percent, respectively.
   - rowWidth will be set to the same value.
+  ```
+  $("#mosaic-grid).mosaic({
+                    columns: 10,
+                    colWidth: 10 // Default unit type is percent
+   });
+  ```
 * A rowHeight is specified
   - Mosaic recognizes if the given value is a number value, in which case it directly assigns the value, or a string, in which case it’s taken as a selector. If it’s taken as a selector, it will find the appropriate element and pull its height.
   - If layoutInPercent = true, the height found from either method will be taken as/converted into a percent, respectively.
-* colWidth will be set to the same value.
-  - Both colWidth and rowHeight are specified.
+  ```
+  $("#mosaic-grid).mosaic({
+                    columns: 10,
+                    rowHeight: 15 // Default unit type is percent
+   });
+  ```
+  - colWidth will be set to the same value.
+* Both colWidth and rowHeight are specified.
   - The first two steps of the previous two will occur.
+  ```
+  $("#mosaic-grid).mosaic({
+                    columns: 10,
+                    colWidth: 10,
+                    rowHeight: 15
+   });
+  ```
 
 <br />
 ####Breakpoints
@@ -192,7 +263,7 @@ Example:
 ```
 
 <br />
-##_**Positioning Tiles**_
+####Positioning Tiles
 
 Mosaic’s true power comes when you want to relatively position any of your tiles inside of your grid. Let’s say you have a grid with five columns, and you want one of your tiles to be on the third row, in the second column. With a library like Masonry, you’d have no guarantee that that tile will remain in the position you want it to. Mosaic will figure out all the positioning (and, if you use the CSS library, the sizing) for you, and make sure that your tile stays where you want it to (assuming your position is valid given the constraints of your grid).
 
