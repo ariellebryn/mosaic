@@ -114,9 +114,9 @@
      * the current size
      *      <Object> obj : the object that holds the positions
      */
-    Tile.prototype.getPosFromObject = function(obj) {
+    Tile.prototype.getPosFromObject = function(obj, breakpoints, currentBreakpoint) {
         var num = -1;
-        var size = _breakpoints[_lowerIndex].size;
+        var size = breakpoints[currentBreakpoint].size;
         var sizeIndex = (size == -1) ? 0 : size;
         num = obj[sizeIndex];
         if (!num)
@@ -129,8 +129,10 @@
      * Gets specified positions, if any, from the data
      * attributes of the tile
      *      <int> colMax : the maximum number of columns (0-indexed)
+     *      <double[]> breakpoints : the grid's breakpoints
+     *      <int> currentBreakpoint : the index of the current breakpoint
      */
-    Tile.prototype.getPosInfo = function(colMax) {
+    Tile.prototype.getPosInfo = function(colMax, breakpoints, currentBreakpoint) {
         var row = $(this.element).attr('data-mosaic-row');
         var col = $(this.element).attr('data-mosaic-col');
         var num; var obj;
@@ -141,7 +143,7 @@
                 this.rowPosition = num; 
             } else {
                 this.rowPosition = stringToObject(row);
-                num = this.getPosFromObject(this.rowPosition);
+                num = this.getPosFromObject(this.rowPosition, breakpoints, currentBreakpoint);
             }
 
             this.row = num;
@@ -154,7 +156,7 @@
                 this.colPosition = num;
             } else {
                 this.colPosition = stringToObject(col);
-                num = this.getPosFromObject(this.colPosition);
+                num = this.getPosFromObject(this.colPosition, breakpoints, currentBreakpoint);
             }
 
             this.col = num;
@@ -166,11 +168,13 @@
     /**
      * Get the appropriate position of the tile
      *      <int> colMax : max column index
+     *      <double[]> breakpoints : the grid's breakpoints
+     *      <int> currentBreakpoint : the index of the current breakpoint
      */
-    Tile.prototype.getPos = function(colMax) {
+    Tile.prototype.getPos = function(colMax, breakpoints, currentBreakpoint) {
         if (this.colPosition) {
             if (isNaN(this.colPosition)) {
-                this.col = this.getPosFromObject(this.colPosition);
+                this.col = this.getPosFromObject(this.colPosition, breakpoints, currentBreakpoint);
                 this.fixWidth(colMax);
             }
         } else {
@@ -179,7 +183,7 @@
 
         if (this.rowPosition) {
             if (isNaN(this.rowPosition)) {
-                this.row = this.getPosFromObject(this.rowPosition);
+                this.row = this.getPosFromObject(this.rowPosition, breakpoints, currentBreakpoint);
             } else {
                 this.row = -1;
             }
@@ -213,8 +217,12 @@
      *      <Element> container : The DOM element to contain the Grid
      *      <Object> options : All the various options and their settings
      */
-    var Grid = function(container, options) {
+    var Grid = function(container, breakpoints, currentBpoint, options) {
         this.container = container;
+        
+        // Breakpoints and current breakpoint
+        this.breakpoints = breakpoints;
+        this.currentBreakpoint = currentBpoint;
 
         // Set up number of columns and rows in the grid
         this.columns = isPositiveInteger(options.columns) ? options.columns : 1;
@@ -272,7 +280,7 @@
     Grid.prototype.reset = function() {
         this.grid = [this.newRow()];
         this.defaultPos = {row: 0, col: 0};
-        $('.' + TILE_SELECTOR).removeClass(TILE_STYLE);
+        $(this.container).find($('.' + TILE_SELECTOR)).removeClass(TILE_STYLE);
         this.defaultTiles = {};
         this.assignedTiles = {};
     }
@@ -293,8 +301,13 @@
     /**
      * Sets up new layout at certain breakpoint
      *      <Object> options : All the various options and their settings
+     *      <double[]> breakpoints : the grid's breakpoints
+     *      <int> currentBreakpoint : the index of the current breakpoint
      */
-    Grid.prototype.setToBreakpoint = function(options) {
+    Grid.prototype.setToBreakpoint = function(options, breakpoints, currentBpoint) {
+        this.breakpoints = breakpoints;
+        this.currentBreakpoint = currentBpoint;
+        
         if (options.columns && isPositiveInteger(options.columns)) {
             this.columns = options.columns;
             this.colMax = this.columns - 1;
@@ -304,7 +317,6 @@
             this.rows = options.rows;
             this.rowMax = this.rows - 1;
         }
-
 
         this.reset();
         this.setupSizes(options);
@@ -408,7 +420,6 @@
         var rowMult = this.layoutInPercent * getComputedSize(this.container, this.heightSource) * .01 + !this.layoutInPercent;
         var col = this.colSize * colMult;
         var row = this.rowSize * rowMult;
-        console.log("Colsize: " + this.colSize + ", rowsize: " + this.rowSize + "; " + "Col: " + col + ", row: " + row);
 
         if (this.tiles)
             this.setupTiles(col, row);
@@ -432,7 +443,7 @@
                 var tile = new Tile(el, this.getNextId());
 
                 tile.getSize(col, row, this.gutter, this.columns);
-                tile.getPosInfo(this.colMax);
+                tile.getPosInfo(this.colMax, this.breakpoints, this.currentBreakpoint);
 
                 // Separate tiles into appropriate object
                 this.organizeTile(tile);
@@ -444,14 +455,13 @@
     Grid.prototype.recalibrateTiles = function(col, row) {
         for (id in this.tiles) {
             tile.getSize(col, row, this.gutter, this.columns);
-            tile[id].getPos(this.colMax);
+            tile[id].getPos(this.colMax, this.breakpoints, this.currentBreakpoint);
             this.organizeTile(tile);
         }
     }
 
     Grid.prototype.organizeTile = function(tile) {
         if (tile.row != -1 && tile.col != -1) {
-            console.log("Tile assigned to " + tile.row + " and " + tile.col);
             this.assignedTiles[tile.id] = tile;
         } else
             this.defaultTiles[tile.id] = tile;
@@ -622,17 +632,6 @@
 
                 if (spaceWithinTile(aft))
                     this.grid[i][aft] = j - tile.effectiveWidth;
-
-                //            for (var k = tile.col - 1; k >= 0; k--) {
-                //                if (this.grid[i][k] < 0)
-                //                    break;
-                //                else
-                //                    this.grid[i][k] = tile.col - k;
-                //            }
-                //
-                //            for (var j = tile.col; j < tile.col + tile.effectiveWidth; j++) {
-                //                this.grid[i][j] = j - tile.col - tile.width;
-                //            }
             }
         }
     }
@@ -660,74 +659,76 @@
     }
 
     /*      jQuery Plugin       */
-    var _breakpoints = [];
-    var _lowerIndex = 0;
-    var _currBreakpoint; // Index of the current breakpoint
-    var resizeHandler = function(){};
-    var grids = [];
-
     /**
-     * Make sure the breakpoints are in order by size from lowest to highest
+     * Sorts breakpoints in order by size from lowest to highest
      *      <int[]> breakpoints : the array of breakpoints and their associated options
      */
     var sortBreakpoints = function(breakpoints) {
-        _breakpoints = breakpoints.sort(function(a,b){return a.size - b.size;});
+        return breakpoints.sort(function(a,b){return a.size - b.size;});
     }
 
     /**
      * Finds the max breakpoint, given a starting index
      *      <int> start : the initial index to start searching from
      *      <int> size : the browser width
+     *      <Object[]> breakpoints : the breakpoints of the grid
+     *      <int> currentIndex : the current breakpoint index
      */
-    var searchBreakpointsIncreasing = function (start, size) {
-        for (var i = start; i < _breakpoints.length; i++) {
-            if (size < _breakpoints[i].size) {
-                return;
+    var searchBreakpointsIncreasing = function (start, size, breakpoints, currentIndex) {
+        var lowerIndex = currentIndex;
+        for (var i = start; i < breakpoints.length; i++) {
+            if (size < breakpoints[i].size) {
+                break;
             } else {
-                _lowerIndex = i;
+                lowerIndex = i;
             }
         }
+        
+        return lowerIndex;
     }
 
     /**
      * Find the initial lower breakpoint
      *      <int> size : the browser width
+     *      <Object[]> breakpoints : the breakpoints of the grid
+     *      <int> currentIndex : the current breakpoint index
      */
-    var findLowerBreakpoint = function(size) {
-        searchBreakpointsIncreasing(0, size);
+    var findLowerBreakpoint = function(size, breakpoints, currentIndex) {
+        return searchBreakpointsIncreasing(0, size, breakpoints, currentIndex);
     }
 
     /**
      * Try the breakpoints around the current one to see if a new breakpoint is
      * necessary, and if so, find the appropriate breakpoint
      *      <int> size : the browser width
+     *      <Object[]> breakpoints : the breakpoints of the grid
+     *      <int> currentIndex : the current breakpoint index
      */
-    var tryBreakpoints = function(size) {
+    var tryBreakpoints = function(size, breakpoints, currentIndex) {
         var i;
-        if (size > _breakpoints[_lowerIndex].size) {
+        if (size > breakpoints[currentIndex].size) {
             // If size is greater than current breakpoint size, look for greater breakpoints
-            searchBreakpointsIncreasing(_lowerIndex+1, size);
-        } else if (size < _breakpoints[_lowerIndex].size) {
+            return searchBreakpointsIncreasing(currentIndex+1, size, breakpoints, currentIndex);
+        } else if (size < breakpoints[currentIndex].size) {
             // If size is lower than current breakpoint size, look for lower breakpoints
-            for (i = _lowerIndex-1 ; i >= 0; i--) {
-                if (size >= _breakpoints[i].size) {
-                    _lowerIndex = i;
-                    return;
+            for (i = currentIndex-1 ; i >= 0; i--) {
+                if (size >= breakpoints[i].size) {
+                    currentIndex = i;
+                    return currentIndex;
                 }
             }
         }
+        
+        return currentIndex;
     }
 
-    var breakpointHandler = function(opts) {
-        tryBreakpoints(window.innerWidth);
-        if (_lowerIndex != _currBreakpoint) {
-            var tempOpts = $.extend({}, opts);
-            var newOpts = $.extend(tempOpts, _breakpoints[_lowerIndex]);
+    
+    var breakpointHandler = function(opts, breakpoints, currentIndex, grids) {
+        var tempOpts = $.extend({}, opts);
+        var newOpts = $.extend(tempOpts, breakpoints[currentIndex]);
 
-            for (var i in grids) {
-                grids[i].setToBreakpoint(newOpts);
-            }
-            _currBreakpoint = _lowerIndex;
+        for (var i in grids) {
+            grids[i].setToBreakpoint(newOpts, breakpoints, currentIndex);
         }
     }
 
@@ -740,6 +741,11 @@
     $.fn.mosaic = function(options) {
         var opts = $.extend({}, $.fn.mosaic.defaults, options);
         var ret;
+        var breakpoints = [];
+        var lowerIndex = 0;
+        var currBreakpoint; // Index of the current breakpoint
+        var resizeHandler = function(){};
+        var grids = [];
 
         if (opts.breakpoints) {
             if(!Array.isArray(opts.breakpoints))
@@ -748,29 +754,35 @@
             var newOpts;
             opts.breakpoints.push({size:-1});
 
-            sortBreakpoints(opts.breakpoints);
+            breakpoints = sortBreakpoints(opts.breakpoints);
 
             // Figure out the current window size and assign options
-            findLowerBreakpoint(window.innerWidth);
-            _currBreakpoint = _lowerIndex;
+            lowerIndex = findLowerBreakpoint(window.innerWidth, breakpoints, 0);
+            currBreakpoint = lowerIndex;
 
             var tempOpts = $.extend({}, opts);
-            newOpts = $.extend(tempOpts, _breakpoints[_lowerIndex]);            
+            newOpts = $.extend(tempOpts, breakpoints[lowerIndex]);            
             var curr;
             ret = this.each(function() {
-                curr = new Grid(this, newOpts);
+                curr = new Grid(this, breakpoints, currBreakpoint, newOpts);
                 grids.push(curr);
                 startGrid(curr);
             });
 
-            resizeHandler = function() {breakpointHandler(opts);};
+            resizeHandler = function() {
+                lowerIndex = tryBreakpoints(window.innerWidth, breakpoints, lowerIndex);
+                if (lowerIndex != currBreakpoint) {
+                    breakpointHandler(opts, breakpoints, lowerIndex, grids);
+                    currBreakpoint = lowerIndex;
+                }
+            };
             window.addEventListener('resize', resizeHandler);
 
             return ret;
         }
 
         ret = this.each(function() {
-            curr = new Grid(this, opts);
+            curr = new Grid(this, null, null, opts);
             grids.push(curr);
             startGrid(curr);
         });
