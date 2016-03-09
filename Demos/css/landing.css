@@ -13,15 +13,70 @@ html, body {
     text-align: center;
 }
 
-a {
-    text-decoration: none;
-    color: #3A89C9;
-    font-weight: 500;
-    transition: color 0.2s;
+h1 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 4.5em;
+    color: #594F4F;
+    margin: 0;
+    line-height: 1em;
 }
 
-a:hover {
-    color: #1B325F;
+h2 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2em;
+    font-weight: 400;
+    color: #3A89C9;
+}
+
+h3 {
+   font-family: 'Raleway', sans-serif;
+    font-size: 1.4em;
+    color: #594F4F;
+    margin: 0; 
+}
+
+a, a:active, a:visited {
+    text-decoration: none;
+    color: #F26C4F;
+    font-weight: 500;
+    transition: .1s;
+}
+
+a.effect {
+	padding: 0 2px;
+    display: inline-block;
+    height: auto;
+    width: auto;
+    position: relative;
+}
+
+a.effect::before {
+	position: absolute;
+	top: 94%;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #F26C4F;
+	content: '';
+	opacity: 0;
+	-webkit-transition: opacity 0.2s, -webkit-transform 0.2s;
+	-moz-transition: opacity 0.2s, -moz-transform 0.2s;
+	transition: opacity 0.2s, transform 0.2s;
+	-webkit-transform: translateY(10px);
+	-moz-transform: translateY(10px);
+	transform: translateY(0);
+}
+
+a.effect:hover::before,
+a.effect:focus::before {
+	opacity: .1;
+	-webkit-transform: translateY(0px);
+	-moz-transform: translateY(0px);
+	transform: translateY(-100%);
+}
+
+.link a, .link a:active, .link a:visited {
+    color: #594F4F;
 }
 
 .nav {
@@ -35,6 +90,7 @@ a:hover {
     font-family: 'Raleway', sans-serif;
     font-size: 1.2em;
     background-color: white;
+    opacity: .9;
 }
 
 .nav ul {
@@ -64,39 +120,89 @@ a:hover {
 }
 
 .link {
-    color: #262626;
     transition: all 0.08s;
-    font-weight: 400;
 }
 
-.link:hover {
+.link:hover, .link a:hover {
     cursor: pointer;
     color: #3A89C9;
 }
 
-.link.active {
+.link.active, .link.active a {
     font-weight: 600;
     color: #3A89C9;
 }
 
-.link.home {
+.link.home, .link.home a {
     font-weight: 800;
     font-size: 1.2em;
 }
 
-.link.home.active {
+.link.home.active, .link.home.active a {
     font-weight: 800;
     color: #262626;
+}
+
+section {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    top: 8%;
+    min-height: 650px;
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 2%;
+}
+
+section.top {
+    height: 92%;
 }
 
 .mosaic-grid {
     position: relative;
     width: 98%;
-    height: 92%;
-    top: 8%;
+    height: 100%;
     padding: 0;
     margin: 0 auto;
     overflow: hidden;
+    box-sizing: border-box;
+}
+
+.intro-title {
+    padding: 5% 6% 0 6%;
+    height: auto;
+    width: 100%;
+    text-align: left;
+}
+
+.double {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    text-align: left;
+    height: 80%;
+}
+
+.double .half {
+    width: 50%;
+    padding: 0 6%;
+    box-sizing: border-box;
+    position: relative;
+    height: auto;
+}
+
+.double .compare {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+p {
+    line-height: 1.4em;
+    font-size: 1.15em;
+    font-weight: 300;
 }
 
 /* Base */
@@ -120,6 +226,47 @@ a:hover {
     opacity: 0.6 !important;
 }
 
+/* Other Grids */
+.caption {
+    width: 100%;
+}
+
+.holder {
+    max-height: 300px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.grid-item {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border: 2px solid white;
+    box-sizing: border-box;
+}
+
+.grid-item.text {
+    font-size: .8em;
+    font-family: 'Raleway', sans-serif;
+    text-align: center;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    background-color: #F26C4F;
+    opacity: .8;
+}
+
+.grid-item--width-2 {
+    width: 100px;
+}
+
+.grid-item--height-2 {
+    height: 100px;
+}
+
 .title {
     background-color: transparent;
 }
@@ -141,14 +288,83 @@ a:hover {
     display: block;
     width: 90%;
     font-family: 'Raleway', sans-serif;
+    margin-bottom: 12px;
 }
 
-/* SECTIONS */
-section {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
+.hint {
+    font-weight: 300;
+    font-size: .2em;
+    display: block;
+    width: 90%;
+    font-family: 'Raleway', sans-serif;
+}
+
+@media only screen and (max-width: 1005px) {
+    .title .content {
+        font-size: 3.5em;
+    } 
+}
+
+@media only screen and (max-width: 900px) {
+    .title .content {
+        font-size: 3.5em;
+    } 
+    .nav ul {
+        padding: 0px;
+        justify-content: space-between;
+    }
+    .nav ul li {
+        margin: 0px 16px;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .title .content {
+        font-size: 3.2em;
+    }
+    .sub {
+        font-size: .32em;
+    }
+    .hint {
+        font-size: .28em;
+    }
+    .nav {
+        font-size: .9em;
+    }
+    .intro-title {
+        padding: 10% 0 0 0;
+        text-align: center;
+    }
+    .double .half {
+        width: 100%;
+        padding: 0 4% 4% 4%;
+    }
+    section {
+        height: auto;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .title .content {
+        font-size: 3.5em;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .nav {
+        font-size: .75em;
+    }
+    
+    .nav ul li {
+        margin: 0px 3px;
+    }
+    .nav ul {
+        padding: 0px 10px;
+        justify-content: center;
+    }
+    .nav ul li {
+        margin: 0px 10px;
+    }
 }
 
 .padded {
@@ -159,52 +375,24 @@ section {
 .intro {
     text-align: left;
     color: #594F4F;
-    font-family: 'Raleway', sans-serif;
+/*
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
+*/
 }
 
 .mosaic-grid-small {
     position: relative;
     width: 20%;
-    height: 100%;
+    height: 80%;
     padding: 0;
     margin: 0;
     overflow: hidden;
     margin-right: 5%;
 }
 
-.intro-text .title {
-    font-weight: bold;
-    font-size: 6.3em;
-    margin-bottom: 2%;
-    height: auto;
-    line-height: 1em;
-}
-
 .intro-text {
-    font-family: 'Roboto', sans-serif;
     width: 60%;
-    font-size: 1.1em;
-    line-height: 1.4em;
-}
-
-@media only screen and (max-width: 1005px) {
-    .title .content {
-        font-size: 3.5em;
-    }
-}
-
-@media only screen and (max-width: 750px) {
-    .title .content {
-        font-size: 3.2em;
-    }
-}
-
-@media only screen and (max-width: 700px) {
-    .title .content {
-        font-size: 3.5em;
-    }
 }

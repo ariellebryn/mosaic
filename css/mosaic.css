@@ -1,0 +1,95 @@
+/* Variables */
+/* Calculations */
+/* Mixins */
+/* Tiles */
+/* line 24, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+.mosaic-grid {
+  /* Width */
+  /* Height */ }
+  /* line 25, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile {
+    float: left;
+    margin: 0;
+    opacity: 0;
+    box-sizing: border-box;
+    transition: margin-top 0.6s, margin-left 0.6s;
+    width: 32%;
+    padding-bottom: 32%;
+    margin-right: 1%;
+    margin-bottom: 1%; }
+  /* line 38, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile.js-tile-style {
+    position: absolute;
+    opacity: 1; }
+  /* line 43, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%; }
+  /* line 49, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile:nth-child(3n) {
+    margin-right: 0; }
+  /* line 53, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile:nth-child(3n+1) {
+    margin-left: 1%; }
+  /* line 56, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile:nth-child(-n+4) {
+    margin-top: 1%; }
+  /* line 62, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile.width-2 {
+    width: 65%; }
+  /* line 66, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile.width-3 {
+    width: 98%; }
+  /* line 70, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile.width-4 {
+    width: 98%; }
+  /* line 74, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile.width-5 {
+    width: 98%; }
+  /* line 78, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile.width-6 {
+    width: 98%; }
+  /* line 82, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile.width-7 {
+    width: 98%; }
+  /* line 86, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile.width-8 {
+    width: 98%; }
+  /* line 90, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile.width-9 {
+    width: 98%; }
+  /* line 94, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile.width-10 {
+    width: 98%; }
+  /* line 99, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile.height-2 {
+    padding-bottom: 65%; }
+  /* line 103, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile.height-3 {
+    padding-bottom: 98%; }
+  /* line 107, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile.height-4 {
+    padding-bottom: 131%; }
+  /* line 111, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile.height-5 {
+    padding-bottom: 164%; }
+  /* line 115, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile.height-6 {
+    padding-bottom: 197%; }
+  /* line 119, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile.height-7 {
+    padding-bottom: 230%; }
+  /* line 123, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile.height-8 {
+    padding-bottom: 263%; }
+  /* line 127, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile.height-9 {
+    padding-bottom: 296%; }
+  /* line 131, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.scss */
+  .mosaic-grid .mosaic-tile.height-10 {
+    padding-bottom: 329%; }
+
+/*# sourceMappingURL=mosaic.css.map */

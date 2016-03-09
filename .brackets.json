@@ -1,0 +1,13 @@
+{
+    "path": {
+        "css/tilestyle.scss": {
+            "sass.enabled": true,
+            "sass.options": {
+                "outputDir": "../css/",
+                "imagePath": null,
+                "sourceComments": "map",
+                "outputStyle": "compressed"
+            }
+        }
+    }
+}

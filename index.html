@@ -14,15 +14,14 @@
         <link href='Demos/css/landing.mobile2.css' rel='stylesheet'>
         <link href='Demos/css/landing.mobile1.css' rel='stylesheet'>
     </head>
-    <body>
+    <body id="zero">
 
         <div class="nav">
             <ul>
-                <li><a class="link home" href="#top">Mosaic</a></li>
-                <li><a class="link" href="#intro">About</a></li>
-                <li><a class="link" href="#demos">Demos</a></li>
-                <li><a class="link" href="#documentation">Documentation</a></li>
-                <li><a class="link" target="_blank" href="https://github.com/ariellebryn/mosaic/">Download</a></li>
+                <li class="link onpage home top"><a href="#zero">MosaicJS</a></li>
+                <li class="link onpage intro"><a href="#intro">Tell Me More</a></li>
+                <li class="link docs"><a href="https://github.com/ariellebryn/mosaic#readme" target="_blank">Documentation</a></li>
+                <li class="link download"><a href="https://github.com/ariellebryn/mosaic" target="_blank">Download</a></li>
             </ul>
         </div>
 
@@ -31,9 +30,8 @@
                 <div data-mosaic-row="1" data-mosaic-col="0: 0, 700: 4, 1200: 5" class="mosaic-tile height-2 width-3 test title">
                     <div class="content">
                         Mosaic
-                        <span class="sub">Masonry with relatively-positioned tiles<br/><br/>
-                            <a href="#intro">Tell Me More</a>
-                        </span>
+                        <span class="sub">Masonry with relatively-positioned tiles</span>
+                        <span class="hint">Hint: I'm a relatively-positioned tile! When you change the browser size, I have instructions on where to go!</span>
 
                     </div>
                 </div>
@@ -69,79 +67,222 @@
             </div>
         </section>
 
-        <section class="intro padded" id="intro">
-            <div class="mosaic-grid-small" id="mosaic-grid-small">
-                <div class="mosaic-tile size width-2 height-2 d"></div>
-                <div class="mosaic-tile a"></div>
-                <div class="mosaic-tile width-2 b"></div>
-                <div class="mosaic-tile height-2 c"></div>
-                <div class="mosaic-tile d"></div>
-                <div class="mosaic-tile height-3 width-2 a"></div>
-                <div class="mosaic-tile a"></div>
-                <div class="mosaic-tile width-2 b"></div>
-                <div class="mosaic-tile height-2 c"></div>
-                <div class="mosaic-tile c"></div>
-            </div>
-            <div class="intro-text">
-                <div class="title">Mosaic</div>
+        <section id="intro">
+            <div class="intro-title"><h1>Mosaic</h1></div>
+            <div class="double">
+                <div class="half">
+                    <h2>Mosaic is a layout framework that allows you to position "tiles" easily in a premade grid and then auto-layout more tiles around them.</h2>
 
-                Mosaic is a layout framework that allows you to position "tiles" easily in a premade grid and then auto-layout more tiles around them.<br /><br />
+                    <p>Inspired by <a class="effect" href="http://masonry.desandro.com/" target="_blank">Masonry</a>, and similar to <a class="effect" href="http://packery.metafizzy.co/" target="_blank">Packery</a> (both by <a href="https://github.com/desandro" class="effect">desandro</a>), Mosaic is great for mixing dynamic and static content in the same layout. Like Packery, you can specify tiles that you want to essentially keep the same position. Unlike Packery, your positioned tiles are positioned relative to the grid you're using, and so is already entirely integrated into your layout.<br/><br/>
 
-                Inspired by <a target="_blank" href="http://masonry.desandro.com/">Masonry</a>, and similar to <a target="_blank" href="http://packery.metafizzy.co/">Packery</a> (both by <a target="_blank" href="https://github.com/desandro">desandro</a>), Mosaic is great for mixing dynamic and static content in the same layout.<br /><br />
+                        Mosaic comes with two libraries: a CSS library and a JS library.<br/><br/>
 
-                Like Packery, you can specify tiles that you want to essentially keep the same position. Unlike Packery, your positioned tiles are positioned relative to the grid you're using, and so is already entirely integrated into your layout.<br /><br />
+                        <b>MosaicCSS</b> creates a grid framework based on columns and rows. The column width and row height will be the same, and this will be enforced using padding-bottom for the row height (meaning the height of the tiles will be a percentage of the width instead of the height of the container). A normal tile, then, will be a square spanning one column and one row, but it's easy to make the rowspan or column span different.<br/><br/>
 
-                Mosaic comes with two libraries: a CSS library and a JS library.<br /><br />
+                        <b>MosaicJS</b> lays out the grid so that everything fits together, instead of stacking elements of odd heights and widths with gaps in between. In addition, allows you to specify positions for your tiles within the grid, and will make all the necessary calculations for you. Also allows for breakpoints and other options.</p>
+                </div>
+                <div class="half compare">
+                    <div class="caption">
+                        <h3>When won't Masonry cut it?</h3>
+                        <p>Masonry positions your elements the way it thinks is best, without your input. Resize the window and follow the element with the words <i>"Where am I?"</i>. There are no options to control its position, so who knows where it will go?</p>
+                    </div>
+                    <div class="holder">
+                        <div class="masonry-grid">
+                            <div class="a grid-item"></div>
+                            <div class="b grid-item grid-item--width-2"></div>
+                            <div class="c grid-item grid-item--height-2"></div>
+                            <div class="d grid-item"></div>
+                            <div class="a grid-item grid-item--width-2 grid-item--height-2"></div>
+                            <div class="grid-item grid-item--width-2 grid-item--height-2 text">Where am I?</div>
+                            <div class="c grid-item grid-item--width-2"></div>
+                            <div class="b grid-item grid-item--height-2 grid-item--width-2 grid-item--height-2"></div>
+                            <div class="c grid-item grid-item--height-2"></div>
+                            <div class="d grid-item"></div>
+                            <div class="a grid-item"></div>
+                            <div class="a grid-item"></div>
+                            <div class="b grid-item grid-item--width-2"></div>
+                            <div class="c grid-item grid-item--height-2"></div>
+                            <div class="d grid-item"></div>
+                            <div class="d grid-item"></div>
+                            <div class="a grid-item"></div>
+                            <div class="a grid-item"></div>
+                            <div class="a grid-item grid-item--width-2 grid-item--height-2"></div>
+                            <div class="c grid-item grid-item--width-2"></div>
+                            <div class="b grid-item grid-item--height-2 grid-item--width-2 grid-item--height-2"></div>
+                            <div class="c grid-item grid-item--height-2"></div>
+                            <div class="d grid-item"></div>
+                            <div class="a grid-item"></div>
+                            <div class="b grid-item grid-item--width-2"></div>
+                            <div class="c grid-item grid-item--height-2"></div>
+                            <div class="d grid-item"></div>
+                            <div class="a grid-item grid-item--width-2 grid-item--height-2"></div>
+                            <div class="c grid-item grid-item--width-2"></div>
+                            <div class="b grid-item grid-item--height-2 grid-item--width-2 grid-item--height-2"></div>
+                            <div class="c grid-item grid-item--height-2"></div>
+                            <div class="d grid-item"></div>
+                            <div class="a grid-item"></div>
+                            <div class="a grid-item"></div>
+                            <div class="a grid-item"></div>
+                            <div class="b grid-item grid-item--width-2"></div>
+                            <div class="a grid-item grid-item--width-2 grid-item--height-2"></div>
+                            <div class="c grid-item grid-item--width-2"></div>
+                            <div class="b grid-item grid-item--height-2 grid-item--width-2 grid-item--height-2"></div>
+                            <div class="c grid-item grid-item--height-2"></div>
+                            <div class="d grid-item"></div>
+                            <div class="a grid-item"></div>
+                            <div class="a grid-item grid-item--width-2 grid-item--height-2"></div>
+                        </div>
+                    </div>
+                    <div class="caption">
+                        <h2>Compare this to Masonry, which allows you to have control over the relative position of any element in your grid.</h2>
+                        <p>For an example, check out the title section! When you resize the page, it moves exactly where it needs to go to ensure the title is in an optimal viewing position.</p>
+                    </div>
+                </div>
 
-                MosaicCSS creates a grid framework based on columns and rows. The column width and row height will be the same, and this will be enforced using padding-bottom for the row height (meaning the height of the tiles will be a percentage of the width instead of the height of the container). A normal tile, then, will be a square spanning one column and one row, but it's easy to make the rowspan or column span different.<br /><br />
+                <!--
+<div class="mosaic-grid-small" id="mosaic-grid-small">
+<div class="mosaic-tile size width-2 height-2 d"></div>
+<div class="mosaic-tile a"></div>
+<div class="mosaic-tile width-2 b"></div>
+<div class="mosaic-tile height-2 c"></div>
+<div class="mosaic-tile d"></div>
+<div class="mosaic-tile height-3 width-2 a"></div>
+<div class="mosaic-tile a"></div>
+<div class="mosaic-tile width-2 b"></div>
+<div class="mosaic-tile height-2 c"></div>
+<div class="mosaic-tile c"></div>
+</div>
+<div class="intro-text">
+<h1>Mosaic</h1>
 
-                MosaicJS lays out the grid so that everything fits together, instead of stacking elements of odd heights and widths with gaps in between. In addition, allows you to specify positions for your tiles within the grid, and will make all the necessary calculations for you. Also allows for breakpoints and other options.
-            </div>
-        </section>
-        <section class="demos padded" id="demos">
-        </section>
-        <section class="documentation padded" id="documentation">
-        </section>
+<h2>Mosaic is a layout framework that allows you to position "tiles" easily in a premade grid and then auto-layout more tiles around them.</h2>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-        <script src="js/mosaic.js"></script>
-        <script>
-            $(document).ready(function() {
-                $(function() {
-                    $('a[href*=#]:not([href=#])').click(function() {
-                        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-                            var target = $(this.hash);
-                            target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-                            if (target.length) {
-                                $('html,body').animate({
-                                    scrollTop: target.offset().top
-                                }, 500);
-                                return false;
-                            }
-                        }
+<p>Inspired by <a class="effect" href="http://masonry.desandro.com/" target="_blank">Masonry</a>, and similar to <a class="effect" href="http://packery.metafizzy.co/" target="_blank">Packery</a> (both by <a href="https://github.com/desandro" class="effect">desandro</a>), Mosaic is great for mixing dynamic and static content in the same layout. Like Packery, you can specify tiles that you want to essentially keep the same position. Unlike Packery, your positioned tiles are positioned relative to the grid you're using, and so is already entirely integrated into your layout.<br/><br/>
+
+Mosaic comes with two libraries: a CSS library and a JS library.<br/><br/>
+
+<b>MosaicCSS</b> creates a grid framework based on columns and rows. The column width and row height will be the same, and this will be enforced using padding-bottom for the row height (meaning the height of the tiles will be a percentage of the width instead of the height of the container). A normal tile, then, will be a square spanning one column and one row, but it's easy to make the rowspan or column span different.<br/><br/>
+
+<b>MosaicJS</b> lays out the grid so that everything fits together, instead of stacking elements of odd heights and widths with gaps in between. In addition, allows you to specify positions for your tiles within the grid, and will make all the necessary calculations for you. Also allows for breakpoints and other options.</p>
+</div>
+-->
+                </section>
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+            <script src="js/mosaic.js"></script>
+            <script src="js/masonry.js"></script>
+            <script>
+                $(document).ready(function() {
+                    var grid = $("#mosaic-grid").mosaic({
+                        tileModel: '.sizer',
+                        columns: 3,
+                        gutter: 1,
+                        heightFromWidth: true,
+                        breakpoints: [{size: 1200, columns: 10}, {size: 700, columns: 8}]
                     });
+
+                    var grid2 = $("#mosaic-grid-small").mosaic({
+                        columns: 3,
+                        gutter: 1,
+                        heightFromWidth: true
+                    });
+                    $('.masonry-grid').masonry({
+                        // options
+                        itemSelector: '.grid-item',
+                        columnWidth: 50
+                    });
+
+                    $(".link.onpage").click(function() {
+                        $(".active").removeClass("active");
+                        $(this).addClass("active"); 
+                    });
+
+                    var sections = $("section");
+                    var sectionTops = getSectionTops(sections);
+                    var threshold = getThreshold(sections);
+                    var currentTopIndex = findInitSection($(document).scrollTop(), sectionTops, threshold);
+
+                    $(window).resize(function() {
+                        sectionTops = getSectionTops(sections);
+                        threshold = getThreshold(sections);
+                    })
+
+                    $(document).scroll(function() {
+                        currentTopIndex = findCurrentSection($(document).scrollTop(), sectionTops, threshold, currentTopIndex);
+                        setActiveLink(currentTopIndex, sections);
+                    })
                 });
 
-                var grid = $("#mosaic-grid").mosaic({
-                    tileModel: '.sizer',
-                    columns: 3,
-                    gutter: 1,
-                    heightFromWidth: true,
-                    breakpoints: [{size: 1200, columns: 10}, {size: 700, columns: 8}]
-                });
+                function setActiveLink(current, sections) {
+                    var active = $("li.active");
+                    var newActive = $("li." + sections[current].id);
 
-                var grid2 = $("#mosaic-grid-small").mosaic({
-                    columns: 3,
-                    gutter: 1,
-                    heightFromWidth: true
-                });
+                    if (active === newActive)
+                        return;
 
-                $(".link").click(function() {
-                    $(".active").removeClass("active");
-                    $(this).addClass("active"); 
-                });
-            });
-        </script>
+                    active.removeClass("active");
 
-    </body>
-</html>
+                    if (current == 0)
+                        return;
+
+                    newActive.addClass("active");
+                }
+
+                function getSectionTops(sections) {
+                    var tops = [];
+                    $.each(sections, function(index, section)  {
+                        tops[index] = section.offsetTop;
+                    });
+                    return tops;
+                }
+
+                function findCurrentSection(scrollTop, sectionTops, thresh, current) {
+                    if (scrollTop < sectionTops[current] - thresh) {
+                        while (current > 0 && sectionTops[current] - thresh > scrollTop) {
+                            current--;
+                        }
+                        return current;
+                    } else if (current < sectionTops.length && scrollTop > sectionTops[current+1] - thresh) {
+                        while (current < sectionTops.length && sectionTops[current] - thresh < scrollTop) {
+                            current++;
+                        }
+                        return current - 1;
+                    } else {
+                        return current;
+                    }
+
+                }
+
+                function getThreshold(sections) {
+                    if (sections.length > 0)
+                        return ($(sections[0]).height())/2;
+                    else return 0;
+                }
+
+                function findInitSection(scrollTop, sectionTops, thresh) {
+                    var curr = 0;
+                    while (sectionTops[curr] && sectionTops[curr] - thresh < scrollTop) {
+                        curr++;
+                    }
+                    return curr-1;
+                }
+
+                $('a[href*=#]:not([href=#])').click(function() {
+                    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') 
+                        || location.hostname == this.hostname) {
+
+                        var target = $(this.hash);
+                        target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+                        if (target.length) {
+                            $('html,body').animate({
+                                scrollTop: target.offset().top,
+                                easing: 'swing'
+                            }, 300);
+                            return false;
+                        }
+                    }
+                });
+            </script>
+
+            </body>
+        </html>
