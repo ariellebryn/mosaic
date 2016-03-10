@@ -391,7 +391,9 @@ p {
     }
     .intro-title {
         font-size: .8em;
-        margin-top: 24px;
+    }
+    section {
+        padding-top: 4%;
     }
 }
 
