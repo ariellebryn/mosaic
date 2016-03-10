@@ -1,3 +1,5 @@
+**[Check out an example at the website](http://ariellebryn.github.io/mosaic)**
+
 **Table of Contents**
 
 1. Intro and Descriptions

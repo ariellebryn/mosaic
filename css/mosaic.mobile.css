@@ -1,0 +1,80 @@
+/* Variables */
+/* Calculations */
+/* Mixin */
+/* Media Query */
+@media only screen and (max-width: 700px) {
+  /* line 26, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile {
+    width: 32%;
+    padding-bottom: 32%;
+    margin-right: 1%;
+    margin-bottom: 1%;
+    margin-left: 0;
+    margin-top: 0; }
+  /* line 33, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile:nth-child(3n) {
+    margin-right: 0; }
+  /* line 37, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile:nth-child(3n+1) {
+    margin-left: 1%; }
+  /* line 40, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile:nth-child(-n+4) {
+    margin-top: 1%; }
+  /* Width */
+  /* line 46, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile.width-2 {
+    width: 65%; }
+  /* line 50, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile.width-3 {
+    width: 98%; }
+  /* line 54, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile.width-4 {
+    width: 98%; }
+  /* line 58, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile.width-5 {
+    width: 98%; }
+  /* line 62, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile.width-6 {
+    width: 98%; }
+  /* line 66, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile.width-7 {
+    width: 98%; }
+  /* line 70, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile.width-8 {
+    width: 98%; }
+  /* line 74, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile.width-9 {
+    width: 98%; }
+  /* line 78, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile.width-10 {
+    width: 98%; }
+  /* Height */
+  /* line 83, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile.height-2 {
+    padding-bottom: 65%; }
+  /* line 87, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile.height-3 {
+    padding-bottom: 98%; }
+  /* line 91, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile.height-4 {
+    padding-bottom: 131%; }
+  /* line 95, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile.height-5 {
+    padding-bottom: 164%; }
+  /* line 99, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile.height-6 {
+    padding-bottom: 197%; }
+  /* line 103, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile.height-7 {
+    padding-bottom: 230%; }
+  /* line 107, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile.height-8 {
+    padding-bottom: 263%; }
+  /* line 111, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile.height-9 {
+    padding-bottom: 296%; }
+  /* line 115, C:/Users/ariel_000/Documents/Web/Mosaic/Mosaic/css/mosaic.mobile.scss */
+  .mosaic-tile.height-10 {
+    padding-bottom: 329%; } }
+
+/*# sourceMappingURL=mosaic.mobile.css.map */
