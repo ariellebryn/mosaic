@@ -215,7 +215,7 @@ section.top {
 }
 
 .double .compare {
-    height: 100%;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -376,7 +376,7 @@ p {
 
 @media only screen and (max-width: 500px) {
     .nav {
-        font-size: .9em;
+        font-size: .8em;
     }
     
     .nav ul li {
