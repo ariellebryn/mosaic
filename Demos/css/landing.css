@@ -29,7 +29,7 @@ h2 {
 }
 
 h3 {
-   font-family: 'Raleway', sans-serif;
+    font-family: 'Raleway', sans-serif;
     font-size: 1.4em;
     color: #594F4F;
     margin: 0; 
@@ -43,7 +43,7 @@ a, a:active, a:visited {
 }
 
 a.effect {
-	padding: 0 2px;
+    padding: 0 2px;
     display: inline-block;
     height: auto;
     width: auto;
@@ -51,28 +51,28 @@ a.effect {
 }
 
 a.effect::before {
-	position: absolute;
-	top: 94%;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: #F26C4F;
-	content: '';
-	opacity: 0;
-	-webkit-transition: opacity 0.2s, -webkit-transform 0.2s;
-	-moz-transition: opacity 0.2s, -moz-transform 0.2s;
-	transition: opacity 0.2s, transform 0.2s;
-	-webkit-transform: translateY(10px);
-	-moz-transform: translateY(10px);
-	transform: translateY(0);
+    position: absolute;
+    top: 94%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #F26C4F;
+    content: '';
+    opacity: 0;
+    -webkit-transition: opacity 0.2s, -webkit-transform 0.2s;
+    -moz-transition: opacity 0.2s, -moz-transform 0.2s;
+    transition: opacity 0.2s, transform 0.2s;
+    -webkit-transform: translateY(10px);
+    -moz-transform: translateY(10px);
+    transform: translateY(0);
 }
 
 a.effect:hover::before,
 a.effect:focus::before {
-	opacity: .1;
-	-webkit-transform: translateY(0px);
-	-moz-transform: translateY(0px);
-	transform: translateY(-100%);
+    opacity: .1;
+    -webkit-transform: translateY(0px);
+    -moz-transform: translateY(0px);
+    transform: translateY(-100%);
 }
 
 .link a, .link a:active, .link a:visited {
@@ -117,6 +117,7 @@ a.effect:focus::before {
     padding: 0;
     margin: 0;
     margin-right: 5%;
+    text-align: center;
 }
 
 .link {
@@ -378,15 +379,18 @@ p {
     .nav {
         font-size: .8em;
     }
-    
+
     .nav ul li {
         margin: 0px 3px;
+        width: 100%;
     }
     .nav ul {
         padding: 0px 10px;
         justify-content: space-between;
     }
-    .nav ul li {
-        margin: 0px 10px;
+    .intro-title {
+        font-size: .8em;
+        margin-top: 24px;
     }
 }
+
