@@ -221,6 +221,7 @@ section.top {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-content: center;
 }
 
 p {
@@ -394,6 +395,9 @@ p {
     }
     section {
         padding-top: 5%;
+    }
+    .holder {
+        margin: 0 auto;
     }
 }
 
