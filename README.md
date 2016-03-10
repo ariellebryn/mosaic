@@ -1,3 +1,5 @@
+**[Check out an example at the website](http://ariellebryn.github.io/mosaic)**
+
 **Table of Contents**
 
 1. Intro and Descriptions
@@ -21,7 +23,6 @@
 
 <br />
 #Mosaic
-[Website](http://ariellebryn.github.io/mosaic)
 
 Mosaic is a layout framework that allows you to position "tiles" easily in a premade grid and then auto-layout more tiles around them.
 
