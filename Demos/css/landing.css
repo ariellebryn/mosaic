@@ -345,7 +345,7 @@ p {
     }
 }
 
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 800px) {
     .title .content {
         font-size: 3.2em;
     }
@@ -356,7 +356,7 @@ p {
         font-size: .28em;
     }
     .nav {
-        font-size: .9em;
+        font-size: 1em;
     }
     .intro-title {
         padding: 10% 0 0 0;
@@ -374,6 +374,13 @@ p {
 @media only screen and (max-width: 700px) {
     .title .content {
         font-size: 3.5em;
+    }
+}
+
+@media only screen and (min-width: 400px) and (max-width: 700px) and (max-height: 500px) {
+    .mosaic-grid {
+        height: 200%;
+        margin-top: -48%;
     }
 }
 
@@ -401,3 +408,9 @@ p {
     }
 }
 
+@media only screen and (max-width: 350px) {
+    section {
+        box-sizing: border-box;
+        padding: 4% 3%;
+    }
+}
